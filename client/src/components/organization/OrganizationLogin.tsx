@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LogIn } from 'lucide-react';
 
-export default function Login() {
+export default function OrganizationLogin() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -23,7 +23,7 @@ export default function Login() {
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Or{' '}
-          <Link to="/user/register" className="font-medium text-green-600 hover:text-green-500">
+          <Link to="/organization/register" className="font-medium text-green-600 hover:text-green-500">
             create a new account
           </Link>
         </p>
@@ -82,7 +82,7 @@ export default function Login() {
               </div>
 
               <div className="text-sm">
-                <Link to="/user/forgetpasword" className="font-medium text-green-600 hover:text-green-500">
+                <Link to="/organization/forgetpasword" className="font-medium text-green-600 hover:text-green-500">
                   Forgot your password?
                 </Link>
               </div>
