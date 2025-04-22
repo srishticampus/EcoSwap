@@ -1,6 +1,7 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { LogIn } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
@@ -13,8 +14,7 @@ export default function ForgetPassword() {
     password: '',
   });
   const [message, setMessage] = useState('');
-
-  const DUMMY_EMAIL = 'admin@gmail.com';
+  const [loading, setLoading] = useState(false);
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -26,10 +26,6 @@ export default function ForgetPassword() {
         return value.length >= 6
           ? ''
           : 'Password must be at least 6 characters';
-      case 'confirmPassword':
-        return value === formData.password
-          ? ''
-          : 'Passwords do not match';
       default:
         return '';
     }
@@ -37,15 +33,13 @@ export default function ForgetPassword() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // Update form
     setFormData((fd) => ({ ...fd, [name]: value }));
-    // Validate immediately
     setErrors((errs) => ({ ...errs, [name]: validateField(name, value) }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Final validation sweep
+
     const newErrors = {
       email: validateField('email', formData.email),
       password: validateField('password', formData.password),
@@ -56,15 +50,23 @@ export default function ForgetPassword() {
       return;
     }
 
-    // Dummy check
-    if (formData.email !== DUMMY_EMAIL) {
-      setMessage('Email not found');
-      return;
+    try {
+      setLoading(true);
+      const response = await axios.post('http://localhost:8000/user/forgotpassword', formData);
+      setMessage(response.data?.message || 'Password reset successful. Redirecting...');
+      setTimeout(() => navigate('/user/login'), 2000); // Change the path as needed
+    } catch (err: any) {
+      if (err.response?.data?.errors) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ...err.response.data.errors,
+        }));
+      } else {
+        setMessage(err.response?.data?.message || 'Something went wrong');
+      }
+    } finally {
+      setLoading(false);
     }
-
-    // In a real app you'd call your backend here...
-    setMessage('Password reset successful. Redirecting to login…');
-    setTimeout(() => navigate('/admin/login'), 2000);
   };
 
   return (
@@ -74,7 +76,6 @@ export default function ForgetPassword() {
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
           Forgot Password
         </h2>
-
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -83,12 +84,8 @@ export default function ForgetPassword() {
             <div className="mb-4 text-center text-red-600">{message}</div>
           )}
           <form className="space-y-6" onSubmit={handleSubmit} noValidate>
-            {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
               </label>
               <div className="mt-1">
@@ -97,8 +94,9 @@ export default function ForgetPassword() {
                   name="email"
                   type="email"
                   required
-                  className={`appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                  className={`appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 ${
+                    errors.email ? 'border-red-500' : 'border-gray-300'
+                  }`}
                   value={formData.email}
                   onChange={handleChange}
                 />
@@ -108,12 +106,8 @@ export default function ForgetPassword() {
               )}
             </div>
 
-            {/* New Password */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 New Password
               </label>
               <div className="mt-1">
@@ -122,8 +116,9 @@ export default function ForgetPassword() {
                   name="password"
                   type="password"
                   required
-                  className={`appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 ${errors.password ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                  className={`appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 ${
+                    errors.password ? 'border-red-500' : 'border-gray-300'
+                  }`}
                   value={formData.password}
                   onChange={handleChange}
                 />
@@ -133,13 +128,13 @@ export default function ForgetPassword() {
               )}
             </div>
 
-            {/* Submit */}
             <div>
               <button
                 type="submit"
+                disabled={loading}
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
-                Reset Password
+                {loading ? 'Resetting...' : 'Reset Password'}
               </button>
             </div>
           </form>

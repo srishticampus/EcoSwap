@@ -1,17 +1,36 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LogIn } from 'lucide-react';
+import axios from 'axios';
 
 export default function OrganizationLogin() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const [errorMsg, setErrorMsg] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempt:', formData);
+    setErrorMsg('');
+
+    try {
+      const res = await axios.post('http://localhost:8000/organization/login', formData);
+console.log(res);
+
+      if (res.data.success == true) {
+        // Store token or user data if needed
+        localStorage.setItem('orgid', res.data.data._id);     // Optional
+
+        // Navigate to dashboard or some page
+        navigate('/organization/addproduct');
+      } else {
+        setErrorMsg(res.data.message || 'Login failed');
+      }
+    } catch (error) {
+      setErrorMsg(error.response?.data?.message || 'Something went wrong');
+    }
   };
 
   return (
@@ -31,6 +50,9 @@ export default function OrganizationLogin() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          {errorMsg && (
+            <div className="mb-4 text-red-500 text-sm text-center">{errorMsg}</div>
+          )}
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -82,7 +104,7 @@ export default function OrganizationLogin() {
               </div>
 
               <div className="text-sm">
-                <Link to="/organization/forgetpasword" className="font-medium text-green-600 hover:text-green-500">
+                <Link to="/organization/forgetpassword" className="font-medium text-green-600 hover:text-green-500">
                   Forgot your password?
                 </Link>
               </div>

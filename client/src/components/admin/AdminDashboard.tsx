@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Users, Package, Building2, TrendingUp } from 'lucide-react';
 import { Line } from 'react-chartjs-2';
 import {
@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import axios from 'axios';
 
 ChartJS.register(
   CategoryScale,
@@ -23,37 +24,61 @@ ChartJS.register(
 );
 
 export default function AdminDashboard() {
+  const [userCount, setUserCount] = useState(0);
+  const [orgCount, setOrgCount] = useState(0);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get('http://localhost:8000/viewallusers');
+        setUserCount(res.data.length);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    const fetchOrg = async () => {
+      try {
+        const res = await axios.get('http://localhost:8000/viewallorganization');
+        setOrgCount(res.data.length);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+    fetchOrg();
+  }, []);
+
   const stats = [
-    { label: 'Total Users', value: '1,234', icon: Users, change: '+12%' },
-    { label: 'Active Items', value: '3,456', icon: Package, change: '+23%' },
-    { label: 'Organizations', value: '78', icon: Building2, change: '+5%' },
-    { label: 'Monthly Swaps', value: '892', icon: TrendingUp, change: '+18%' },
+    { label: 'Total Users', value: userCount, icon: Users, },
+    { label: 'Active Items', value: '0', icon: Package, },
+    { label: 'Organizations', value: orgCount, icon: Building2, },
+    // { label: 'Monthly Swaps', value: '892', icon: TrendingUp,},
   ];
 
-  const chartData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-        label: 'Item Swaps',
-        data: [65, 78, 90, 85, 98, 110],
-        borderColor: 'rgb(34, 197, 94)',
-        tension: 0.3,
-      },
-    ],
-  };
+  // const chartData = {
+  //   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+  //   datasets: [
+  //     {
+  //       label: 'Item Swaps',
+  //       data: [65, 78, 90, 85, 98, 110],
+  //       borderColor: 'rgb(34, 197, 94)',
+  //       tension: 0.3,
+  //     },
+  //   ],
+  // };
 
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Monthly Swap Activity',
-      },
-    },
-  };
+  // const chartOptions = {
+  //   responsive: true,
+  //   plugins: {
+  //     legend: {
+  //       position: 'top' as const,
+  //     },
+  //     title: {
+  //       display: true,
+  //       text: 'Monthly Swap Activity',
+  //     },
+  //   },
+  // };
 
   return (
     <div>
@@ -78,7 +103,7 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      {/* Charts */}
+      {/* Charts
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white p-6 rounded-lg shadow">
           <Line data={chartData} options={chartOptions} />
@@ -87,7 +112,6 @@ export default function AdminDashboard() {
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
           <div className="space-y-4">
-            {/* Activity items */}
             <div className="flex items-center justify-between py-2 border-b">
               <div>
                 <p className="font-medium">New User Registration</p>
@@ -111,7 +135,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

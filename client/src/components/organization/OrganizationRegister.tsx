@@ -1,8 +1,10 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import image from "../../asserts/image 6.png"
+import axios from "axios"
+import { useNavigate } from 'react-router-dom';
 
 type FormState = {
-    fullname: string;
+    organizationname: string;
     profilepic: File | null;
     mobile: string;
     email: string;
@@ -10,7 +12,6 @@ type FormState = {
     confirmpassword: string;
     district: string;
     city: string;
-    pincode: string;
 };
 
 type ErrorState = {
@@ -19,7 +20,7 @@ type ErrorState = {
 
 export default function OrganizationRegister() {
     const [form, setForm] = useState<FormState>({
-        fullname: '',
+        organizationname: '',
         profilepic: null,
         mobile: '',
         email: '',
@@ -27,14 +28,13 @@ export default function OrganizationRegister() {
         confirmpassword: '',
         district: '',
         city: '',
-        pincode: '',
     });
 
     const [errors, setErrors] = useState<ErrorState>({});
 
     const validateField = (name: keyof FormState, value: any): string => {
         switch (name) {
-            case 'fullname':
+            case 'organizationname':
             case 'district':
             case 'city':
                 return value.trim() === '' ? 'This field is required' : '';
@@ -52,11 +52,7 @@ export default function OrganizationRegister() {
                     ? ''
                     : 'Invalid email address';
 
-            case 'pincode':
-                return /^\d{6}$/.test(value)
-                    ? ''
-                    : 'Pincode must be exactly 6 digits';
-
+            
             case 'password':
                 return value.length >= 6
                     ? ''
@@ -95,20 +91,45 @@ export default function OrganizationRegister() {
         }
         return true;
     };
-
-    const handleSubmit = (e: FormEvent) => {
+const navigate=useNavigate()
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        // Final sweep
+    
         const newErrors: ErrorState = {};
         (Object.keys(form) as (keyof FormState)[]).forEach((key) => {
             newErrors[key] = validateField(key, form[key]);
         });
         setErrors(newErrors);
-
+    
         if (!isFormValid()) return;
-
-        // submit logic here...
-        console.log('Submitting:', form);
+    
+        try {
+            const formData = new FormData();
+            formData.append('organizationname', form.organizationname);
+            if (form.profilepic) {
+                formData.append('profilepic', form.profilepic);
+            }
+            formData.append('mobile', form.mobile);
+            formData.append('email', form.email);
+            formData.append('password', form.password);
+            formData.append('confirmpassword', form.confirmpassword);
+            formData.append('district', form.district);
+            formData.append('city', form.city);
+    
+            const response = await axios.post("http://localhost:8000/organization/register", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+    
+            console.log("Registration Success:", response.data);
+            alert("Organization registered successfully!");
+            navigate("/organization/login")
+            // Optionally reset form or redirect
+        } catch (error: any) {
+            console.error("Registration Error:", error.response?.data || error.message);
+            alert("Registration failed. Please try again.");
+        }
     };
 
     return (
@@ -157,19 +178,19 @@ export default function OrganizationRegister() {
 
                     {/* Full Name */}
                     <div className="mb-4">
-                        <label htmlFor="fullname" className="block text-sm mb-1">
-                            Full Name
+                        <label htmlFor="organizationname" className="block text-sm mb-1">
+                        Organization name
                         </label>
                         <input
-                            id="fullname"
-                            name="fullname"
+                            id="organizationname"
+                            name="organizationname"
                             type="text"
-                            value={form.fullname}
+                            value={form.organizationname}
                             onChange={handleChange}
                             className="w-full border rounded px-3 py-2"
                         />
-                        {errors.fullname && (
-                            <p className="text-red-600 text-sm mt-1">{errors.fullname}</p>
+                        {errors.organizationname && (
+                            <p className="text-red-600 text-sm mt-1">{errors.organizationname}</p>
                         )}
                     </div>
 
@@ -264,23 +285,7 @@ export default function OrganizationRegister() {
                             )}
                         </div>
 
-                        {/* Pincode */}
-                        <div>
-                            <label htmlFor="pincode" className="block text-sm mb-1">
-                                Pincode
-                            </label>
-                            <input
-                                id="pincode"
-                                name="pincode"
-                                type="text"
-                                value={form.pincode}
-                                onChange={handleChange}
-                                className="w-full border rounded px-3 py-2"
-                            />
-                            {errors.pincode && (
-                                <p className="text-red-600 text-sm mt-1">{errors.pincode}</p>
-                            )}
-                        </div>
+                        
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
