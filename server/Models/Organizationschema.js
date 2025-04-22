@@ -1,23 +1,27 @@
 var mongoose=require("mongoose");
 
 var OrganizationSchema=mongoose.Schema({
-    fullName: {
+    organizationname: {
         type:String,
         required:true
     },
-    emailId: {
+    email: {
         type:String,
         required:true
     },
-    photo: {
+    profilepic: {
         type:Object,
         required:true
     },
-    address: {
+    district: {
         type:String,
         required:true
     },
-    phoneNo: {
+    city: {
+        type:String,
+        required:true
+    },
+    mobile: {
         type:Number,
         required:true
     },
@@ -25,10 +29,6 @@ var OrganizationSchema=mongoose.Schema({
         type:String,
         required:true
     },
-    confirmPass: {
-        type:String,
-        required:true
-    }
 });
 
 const Organization=mongoose.model('organizations',OrganizationSchema);

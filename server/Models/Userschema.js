@@ -1,7 +1,7 @@
 var mongoose=require("mongoose");
 
 var UserSchema=mongoose.Schema({
-    fullName: {
+    fullname: {
         type:String,
         required:true
     },
@@ -10,15 +10,15 @@ var UserSchema=mongoose.Schema({
         enum:['Male','Female','Other'],
         required:true
     },
-    profilePic: {
+    profilepic: {
         type:Object,
         required:true
     },
-    mobileNo: {
+    mobile: {
         type:Number,
         required:true
     },
-    emailId: {
+    email: {
         type:String,
         required:true
     },
@@ -38,10 +38,7 @@ var UserSchema=mongoose.Schema({
         type:String,
         required:true
     },
-    confirmPass: {
-        type:String,
-        required:true
-    }
+   
 });
 
 const User=mongoose.model('users',UserSchema);

@@ -1,6 +1,7 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { LogIn } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function ForgetPassword() {
   const navigate = useNavigate();
@@ -13,8 +14,7 @@ export default function ForgetPassword() {
     password: '',
   });
   const [message, setMessage] = useState('');
-
-  const DUMMY_EMAIL = 'admin@gmail.com';
+  const [loading, setLoading] = useState(false);
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -26,10 +26,6 @@ export default function ForgetPassword() {
         return value.length >= 6
           ? ''
           : 'Password must be at least 6 characters';
-      case 'confirmPassword':
-        return value === formData.password
-          ? ''
-          : 'Passwords do not match';
       default:
         return '';
     }
@@ -37,15 +33,13 @@ export default function ForgetPassword() {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    // Update form
     setFormData((fd) => ({ ...fd, [name]: value }));
-    // Validate immediately
     setErrors((errs) => ({ ...errs, [name]: validateField(name, value) }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Final validation sweep
+
     const newErrors = {
       email: validateField('email', formData.email),
       password: validateField('password', formData.password),
@@ -56,15 +50,23 @@ export default function ForgetPassword() {
       return;
     }
 
-    // Dummy check
-    if (formData.email !== DUMMY_EMAIL) {
-      setMessage('Email not found');
-      return;
+    setLoading(true);
+    try {
+      const res = await axios.post('http://localhost:8000/organization/forgotpassword', formData);
+      if (res.data.success) {
+        setMessage('Password reset successful. Redirecting to login...');
+        setTimeout(() => navigate('/organization/login'), 2000);
+      } else {
+        setMessage(res.data.message || 'Something went wrong');
+      }
+    } catch (error: any) {
+      console.error(error);
+      setMessage(
+        error.response?.data?.message || 'Server error. Please try again later.'
+      );
+    } finally {
+      setLoading(false);
     }
-
-    // In a real app you'd call your backend here...
-    setMessage('Password reset successful. Redirecting to login…');
-    setTimeout(() => navigate('/admin/login'), 2000);
   };
 
   return (
@@ -74,72 +76,59 @@ export default function ForgetPassword() {
         <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
           Forgot Password
         </h2>
-
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {message && (
-            <div className="mb-4 text-center text-red-600">{message}</div>
+            <div
+              className={`mb-4 text-center ${
+                message.includes('successful') ? 'text-green-600' : 'text-red-600'
+              }`}
+            >
+              {message}
+            </div>
           )}
           <form className="space-y-6" onSubmit={handleSubmit} noValidate>
-            {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-            Email
-              </label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
               <div className="mt-1">
                 <input
                   id="email"
                   name="email"
                   type="email"
                   required
-                  className={`appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                  className={`appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                   value={formData.email}
                   onChange={handleChange}
                 />
               </div>
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-              )}
+              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
             </div>
 
-            {/* New Password */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
-                New Password
-              </label>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">New Password</label>
               <div className="mt-1">
                 <input
                   id="password"
                   name="password"
                   type="password"
                   required
-                  className={`appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 ${errors.password ? 'border-red-500' : 'border-gray-300'
-                    }`}
+                  className={`appearance-none block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
                   value={formData.password}
                   onChange={handleChange}
                 />
               </div>
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-              )}
+              {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
             </div>
 
-            {/* Submit */}
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                disabled={loading}
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
               >
-                Reset Password
+                {loading ? 'Please wait...' : 'Reset Password'}
               </button>
             </div>
           </form>

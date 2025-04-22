@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Home,
     User,
@@ -15,6 +15,14 @@ import {
 
 export default function UserNavbar() {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        alert("logged out")
+        localStorage.removeItem("userid");
+        // Add any other keys you need to clear
+        navigate("/user/login");
+    };
 
     const navItems = [
         { to: "/user/homepage", label: "Home", icon: <Home className="mr-2 h-5 w-5" /> },
@@ -23,7 +31,6 @@ export default function UserNavbar() {
         { to: "/user/products", label: "Products", icon: <Box className="mr-2 h-5 w-5" /> },
         { to: "/user/requests", label: "Requests", icon: <ClipboardList className="mr-2 h-5 w-5" /> },
         { to: "/user/complaints", label: "Complaints", icon: <MessageCircle className="mr-2 h-5 w-5" /> },
-        { to: "/logout", label: "Logout", icon: <LogIn className="mr-2 h-5 w-5" /> },
     ];
 
     return (
@@ -31,7 +38,8 @@ export default function UserNavbar() {
             <div className="max-w-screen-xl mx-auto flex items-center justify-between p-4">
                 {/* Brand */}
                 <Link to="/" className="flex items-center">
-                    <Leaf className="text-green-600 h-8 w-8 mr-2" />          <span className="text-2xl font-semibold text-green-800">EcoSwap</span>
+                    <Leaf className="text-green-600 h-8 w-8 mr-2" />
+                    <span className="text-2xl font-semibold text-green-800">EcoSwap</span>
                 </Link>
 
                 {/* Hamburger for mobile */}
@@ -44,10 +52,7 @@ export default function UserNavbar() {
 
                 {/* Nav items */}
                 <ul
-                    className={`
-            mt-4 md:mt-0 md:flex md:items-center
-            ${open ? "block" : "hidden"} 
-          `}
+                    className={`mt-4 md:mt-0 md:flex md:items-center ${open ? "block" : "hidden"}`}
                 >
                     {navItems.map(({ to, label, icon }) => (
                         <li key={to} className="md:ml-6">
@@ -60,6 +65,16 @@ export default function UserNavbar() {
                             </Link>
                         </li>
                     ))}
+                    {/* Logout Button */}
+                    <li className="md:ml-6">
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center px-3 py-2 text-green-700 hover:bg-green-100 rounded-lg"
+                        >
+                            <LogIn className="mr-2 h-5 w-5" />
+                            <span className="text-green-800">Logout</span>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </nav>

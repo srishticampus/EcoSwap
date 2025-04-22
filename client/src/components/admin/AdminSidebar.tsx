@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
@@ -15,14 +15,20 @@ export default function AdminSidebar() {
   const location = useLocation();
 
   const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/admin/dashboard' },
     { icon: Users, label: 'Swappers', path: '/admin/swappers' },
     { icon: Building2, label: 'Organizations', path: '/admin/organizations' },
     { icon: Package, label: 'Items', path: '/admin/items' },
-    { icon: AlertCircle, label: 'Reports', path: '/admin/reports' },
-    { icon: BarChart3, label: 'Analytics', path: '/admin/analytics' },
-    { icon: Settings, label: 'Settings', path: '/admin/settings' },
+    // { icon: AlertCircle, label: 'Reports', path: '/admin/reports' },
+    // { icon: BarChart3, label: 'Analytics', path: '/admin/analytics' },
+    // { icon: Settings, label: 'Settings', path: '/admin/settings' },
   ];
+  const navigate = useNavigate()
+  const handleLogout = () => {
+    alert("logged out")
+    localStorage.removeItem("adminId")
+    navigate("/admin/login")
+  }
 
   return (
     <div className="w-64 bg-green-800 text-white min-h-screen p-4">
@@ -55,7 +61,7 @@ export default function AdminSidebar() {
       <div className="absolute bottom-4 w-52">
         <button
           className="flex items-center space-x-3 px-4 py-2 rounded-lg text-green-100 hover:bg-green-700 w-full"
-          onClick={() => {/* Handle logout */}}
+          onClick={handleLogout}
         >
           <LogOut className="h-5 w-5" />
           <span>Logout</span>

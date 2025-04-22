@@ -1,5 +1,7 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
-import image from "../asserts/image 1.png"
+import image from "../../asserts/image 1.png"
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 type FormState = {
   fullname: string;
@@ -98,10 +100,10 @@ export default function RegisterPage() {
     }
     return true;
   };
-
-  const handleSubmit = (e: FormEvent) => {
+const navigate=useNavigate()
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Final sweep
+
     const newErrors: ErrorState = {};
     (Object.keys(form) as (keyof FormState)[]).forEach((key) => {
       newErrors[key] = validateField(key, form[key]);
@@ -110,10 +112,25 @@ export default function RegisterPage() {
 
     if (!isFormValid()) return;
 
-    // submit logic here...
-    console.log('Submitting:', form);
-  };
+    const formData = new FormData();
+    Object.entries(form).forEach(([key, value]) => {
+      if (value !== null) formData.append(key, value as any);
+    });
 
+    try {
+      const response = await axios.post('http://localhost:8000/user/register', formData)
+      console.log(response,"res");
+      
+      if (response.data.success == true) {
+        alert("Register Successfully")
+        navigate("/user/login")
+      } else {
+        alert(response.data.message)
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+    }
+  };
   return (
     <div className="bg-[#f7fefb] min-h-screen">
       <header className="bg-[#c9f7d1]">
@@ -186,9 +203,9 @@ export default function RegisterPage() {
               className="w-full border rounded px-3 py-2"
             >
               <option value="">Select gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
             </select>
             {errors.gender && (
               <p className="text-red-600 text-sm mt-1">{errors.gender}</p>
@@ -347,11 +364,10 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={!isFormValid()}
-            className={`w-full py-3 rounded-md text-white font-semibold transition-colors ${
-              isFormValid()
+            className={`w-full py-3 rounded-md text-white font-semibold transition-colors ${isFormValid()
                 ? 'bg-[#2f7a2f] hover:bg-green-800'
                 : 'bg-gray-400 cursor-not-allowed'
-            }`}
+              }`}
           >
             Register
           </button>
