@@ -1,0 +1,126 @@
+.userhomepage-image18{
+    position: relative;
+    top: 2rem;
+}
+.heroimg{
+    position: relative;
+    left: 3rem;
+}
+.user-homepage-maintitle{
+    position: relative;
+    top:3rem;
+}
+.user-homepage-subtitle{
+    position: relative;
+    top:3rem;
+    left: .5em;
+}
+.user-homepage-button{
+    width: 9rem;
+    height: 2.5rem;
+    background-color: rgb(22 101 52 / var(--tw-text-opacity, 1));
+    border-radius: 15px;
+    color: white;
+    letter-spacing: 2px;
+    transition: background 0.4s ease, transform 0.3s ease;
+    position: relative;
+    top: 4rem;
+    left: 1rem;
+}
+.user-homepage-button:hover{
+    transform: translateY(-3px);
+    
+}
+.user-homepage-mid{
+    margin-top: 6rem;
+    width: 100%;
+    height: 35rem;
+    display: grid;
+    grid-template-columns: repeat(3,25rem);
+    gap: 1rem;
+    justify-content: center;
+    
+}
+.user-homepage-mid-div{
+    height: 100%;
+    width: 24rem;
+}
+#user-homepage-mid-1{
+    background-color: #E1E4C2;
+}
+#user-homepage-mid-2{
+    background-color: #DCEEEE;
+}
+#user-homepage-mid-3{
+    background-color: #F3EFE1;
+}
+.user-homepage-mid-div-newcollection{
+    margin-top: 2rem;
+    margin-left: 8rem;
+    font-weight: 500;
+}
+.user-homepage-mid-div-care{
+    margin-top: 2rem;
+    margin-left: 7rem;
+    font-size: 40px;
+}
+.user-homepage-mid-div-care1{
+    
+}
+#user-homepage-mid-div-care3{
+    margin-top: 2rem;
+    margin-left: 5.5rem;
+    font-size: 40px;
+}
+.user-homepage-mid-div-button{
+    width: 9rem;
+    height: 2.5rem;
+    background-color: black;
+    border-radius: 20px;
+    color: white;
+    letter-spacing: 2px;
+    transition: background 0.4s ease, transform 0.3s ease;
+    position: relative;
+    top: 1rem;
+    left: 7.5rem;
+}
+.user-homepage-mid-div-button:hover{
+    transform: translateY(-7px);
+}
+.user-homepage-mid-div-imagediv{
+    width: 24rem;
+    height: 23rem;
+    background-size: contain;
+
+    
+}
+.user-homepage-mid-div-img{
+    width: 22rem;
+    height: 22.5rem;
+    margin-left: 1rem;
+    border-radius: 15px;
+}
+.why-ecoswap{
+    margin-top: 3rem;
+}
+.user-homepage-text-section{
+    display: flex;
+}
+.user-homepage-text-section1{
+    margin-top:1rem ;
+}
+.user-homepage-text-section2-img{
+    width: 30rem;
+    height: 30rem;
+    border-radius: 15px;
+    margin-left: 1rem;
+}
+.community{
+    position: absolute;
+    bottom: -81rem;
+}
+
+.userhomepage-image18{
+    height: 475px;
+    width: 40rem;
+}

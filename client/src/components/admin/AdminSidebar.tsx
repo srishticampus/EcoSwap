@@ -18,10 +18,11 @@ export default function AdminSidebar() {
     { icon: LayoutDashboard, label: 'Dashboard', path: '/admin/dashboard' },
     { icon: Users, label: 'Swappers', path: '/admin/swappers' },
     { icon: Building2, label: 'Organizations', path: '/admin/organizations' },
-    { icon: Package, label: 'Items', path: '/admin/items' },
-    // { icon: AlertCircle, label: 'Reports', path: '/admin/reports' },
+    { icon: Package, label: 'Items', path: '/admin/vieweallproducts' },
+    
+    { icon: AlertCircle, label: 'Complaints', path: '/admin/viewallcomplaints' },
     // { icon: BarChart3, label: 'Analytics', path: '/admin/analytics' },
-    // { icon: Settings, label: 'Settings', path: '/admin/settings' },
+    { icon: Settings, label: 'Events', path: '/admin/viewevents' },
   ];
   const navigate = useNavigate()
   const handleLogout = () => {

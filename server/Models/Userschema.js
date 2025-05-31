@@ -38,6 +38,10 @@ var UserSchema=mongoose.Schema({
         type:String,
         required:true
     },
+    isactive:{
+        type:Boolean,
+        required:true
+    }
    
 });
 

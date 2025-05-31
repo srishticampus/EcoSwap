@@ -21,7 +21,6 @@ export default function UserHome() {
     <div className="min-h-screen bg-gray-50 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Sidebar */}
           <div className="bg-white p-6 rounded-lg shadow">
             <div className="flex items-center space-x-4 mb-6">
               <img

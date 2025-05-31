@@ -49,7 +49,7 @@ const saveuser = async (req, res) => {
             pincode: req.body.pincode,
             password: req.body.password,
             confirmPass: req.body.confirmpassword,
-
+isactive:true
         });
 
         await u.save();

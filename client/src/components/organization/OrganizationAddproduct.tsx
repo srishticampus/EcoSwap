@@ -1,31 +1,80 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import OrganizationSidebar from './OrganizationSidebar';
 
-const OrganisationAddProduct: React.FC = () => {
-  const [productImage, setProductImage] = useState<File | null>(null);
-  const [productName, setProductName] = useState('');
-  const [productDescription, setProductDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [productCode, setProductCode] = useState('');
+function OrganizationAddproduct() {
+  const [showModal, setShowModal] = useState(false);
+  const [data, setData] = useState({
+    title: '',
+    description: '',
+    category: '',
+    price: '',
+    image: null,
+    productquantity: null,
+    productcode: '',
+    addedByType: 'organizations',
+    addedBy: localStorage.getItem('orgid'),
+  });
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setProductImage(e.target.files[0]);
-    }
+  const handlechange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: name === 'productquantity' ? Number(value) : value,
+    }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = () => {
+    const { title, description, category, price, productquantity, productcode, image } = data;
+
+    if (!title || !description || !category || !price || !productquantity || !productcode || !image) {
+      alert('All fields are required.');
+      return false;
+    }
+
+    if (isNaN(price) || Number(price) <= 0) {
+      alert('Price must be a valid number greater than 0.');
+      return false;
+    }
+
+    if (isNaN(productquantity) || Number(productquantity) <= 0) {
+      alert('Product quantity must be a valid number greater than 0.');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({
-      productImage,
-      productName,
-      productDescription,
-      price,
-      quantity,
-      productCode,
-    });
+
+    if (!validateForm()) return;
+
+    try {
+      const formData = new FormData();
+      formData.append('title', data.title);
+      formData.append('description', data.description);
+      formData.append('category', data.category);
+      formData.append('price', data.price);
+      formData.append('productquantity', data.productquantity);
+      formData.append('productcode', data.productcode);
+      formData.append('addedByType', data.addedByType);
+      formData.append('addedBy', data.addedBy);
+      formData.append('image', data.image);
+
+      const response = await axios.post('http://localhost:8000/product/add', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      if (response.data.success === true) {
+        setShowModal(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      console.log('error in frontend', error);
+    }
   };
 
   return (
@@ -33,102 +82,124 @@ const OrganisationAddProduct: React.FC = () => {
       <OrganizationSidebar />
       <main className="flex-1 p-8">
         <h1 className="text-3xl font-bold text-green-800 mb-6">Add New Product</h1>
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-6">
-          {/* Product Image */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
-                         file:rounded-full file:border-0
-                         file:text-sm file:font-semibold
-                         file:bg-green-50 file:text-green-700
-                         hover:file:bg-green-100"
-            />
-          </div>
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-12">
+            <div className="border-b border-gray-900/10 pb-12">
+              <h2 className="text-lg font-semibold text-gray-900">ADD ITEM</h2>
+              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="sm:col-span-4">
+                  <label className="block text-sm font-medium text-gray-900">Product Name</label>
+                  <input
+                    onChange={handlechange}
+                    value={data.title}
+                    type="text"
+                    name="title"
+                    className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900"
+                  />
+                </div>
 
-          {/* Product Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
-            <input
-              type="text"
-              value={productName}
-              onChange={(e) => setProductName(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
-                         py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-              required
-            />
-          </div>
+                <div className="col-span-full">
+                  <label className="block text-sm font-medium text-gray-900">Product description</label>
+                  <textarea
+                    onChange={handlechange}
+                    value={data.description}
+                    name="description"
+                    rows="3"
+                    className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900"
+                  />
+                </div>
 
-          {/* Product Description */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product Description</label>
-            <textarea
-              value={productDescription}
-              onChange={(e) => setProductDescription(e.target.value)}
-              rows={4}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
-                         py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-              required
-            ></textarea>
-          </div>
+                <div className="col-span-full">
+                  <label className="block text-sm font-medium text-gray-900">Product picture</label>
+                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                    <div className="text-center">
+                      <label className="relative cursor-pointer bg-white font-semibold text-indigo-600 hover:text-indigo-500">
+                        <span>Upload a file</span>
+                        <input
+                          type="file"
+                          name="image"
+                          className="sr-only"
+                          onChange={(e) => setData({ ...data, image: e.target.files[0] })}
+                        />
+                      </label>
+                      <p className="text-xs text-gray-600 mt-2">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                  </div>
+                </div>
 
-          {/* Price and Quantity */}
-          <div className="flex space-x-4">
-            <div className="w-1/2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
-              <input
-                type="text"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
-                           py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                required
-              />
+                <div className="sm:col-span-3">
+                  <label className="block text-sm font-medium text-gray-900">Price</label>
+                  <input
+                    type="text"
+                    onChange={handlechange}
+                    value={data.price}
+                    name="price"
+                    className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900"
+                  />
+                </div>
+
+                <div className="sm:col-span-3">
+                  <label className="block text-sm font-medium text-gray-900">Category</label>
+                  <input
+                    type="text"
+                    onChange={handlechange}
+                    value={data.category}
+                    name="category"
+                    className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900"
+                  />
+                </div>
+
+                <div className="sm:col-span-3">
+                  <label className="block text-sm font-medium text-gray-900">Quantity</label>
+                  <input
+                    type="number"
+                    onChange={handlechange}
+                    value={data.productquantity}
+                    name="productquantity"
+                    className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900"
+                  />
+                </div>
+
+                <div className="sm:col-span-4">
+                  <label className="block text-sm font-medium text-gray-900">Product Code</label>
+                  <input
+                    onChange={handlechange}
+                    value={data.productcode}
+                    name="productcode"
+                    type="text"
+                    className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900"
+                  />
+                </div>
+              </div>
             </div>
-            <div className="w-1/2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
-              <input
-                type="text"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
-                           py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                required
-              />
-            </div>
           </div>
 
-          {/* Product Code */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Product Code</label>
-            <input
-              type="text"
-              value={productCode}
-              onChange={(e) => setProductCode(e.target.value)}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm
-                         py-2 px-3 focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm"
-              required
-            />
-          </div>
-
-          {/* Submit Button */}
-          <div>
+          <div className="mt-6 flex items-center justify-end gap-x-6">
+            <button type="button" className="text-sm font-semibold text-gray-900">Cancel</button>
             <button
               type="submit"
-              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm
-                         text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700
-                         focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
             >
-              Add Product
+              Save
             </button>
           </div>
         </form>
+
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+            <div className="bg-white rounded-lg shadow-lg p-8 text-center max-w-sm w-full">
+              <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-green-100">
+                <svg className="size-8 text-green-600" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="mt-4 text-lg font-semibold text-gray-900">Product added successfully!</h3>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
-};
+}
 
-export default OrganisationAddProduct;
+export default OrganizationAddproduct;
