@@ -1,43 +1,34 @@
-import React, { useState } from 'react';
-import { Search, Filter, MoreVertical } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, MoreVertical } from 'lucide-react';
+import axios from 'axios';
 
-export default function AdminSwappersList() {
+export default function AdminSwappersList({ url }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [users, setUsers] = useState([]);
 
-  const users = [
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'john@example.com',
-      location: 'New York, NY',
-      joinDate: '2024-01-15',
-      status: 'Active',
-      itemsListed: 12,
-      successfulSwaps: 8,
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      email: 'jane@example.com',
-      location: 'Los Angeles, CA',
-      joinDate: '2024-02-01',
-      status: 'Active',
-      itemsListed: 5,
-      successfulSwaps: 3,
-    },
-    // Add more users as needed
-  ];
+  // Fetch users from API
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get(`${url}/viewallusers`);
+        setUsers(res.data);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, [url]);
+
+  // Filtered list based on search
+  const filteredUsers = users?.filter((user) =>
+    user?.fullname?.toLowerCase()?.includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Swappers</h1>
-        <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-          Export Data
-        </button>
-      </div>
 
-      {/* Search and Filters */}
+      {/* Search Bar */}
       <div className="mb-6">
         <div className="flex gap-4">
           <div className="flex-1 relative">
@@ -50,10 +41,6 @@ export default function AdminSwappersList() {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-            <Filter className="h-5 w-5 mr-2" />
-            Filters
-          </button>
         </div>
       </div>
 
@@ -62,56 +49,38 @@ export default function AdminSwappersList() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                User
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Location
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Join Date
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Items
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Swaps
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {users.map((user) => (
-              <tr key={user.id}>
+            {filteredUsers.map((user) => (
+              <tr key={user._id}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <img
+                    src={user.profilepic?.filename ? `${url}/upload/${user.profilepic.filename}` : 'https://via.placeholder.com/50'}
+                    alt={`${user.fullname}'s profile`}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                      <div className="text-sm font-medium text-gray-900">{user.fullname}</div>
                       <div className="text-sm text-gray-500">{user.email}</div>
                     </div>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.location}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.joinDate}
+                  {user.city || 'N/A'}, {user.district || 'N/A'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                    {user.status}
+                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isactive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    {user.isactive ? 'Active' : 'Inactive'}
                   </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.itemsListed}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.successfulSwaps}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button className="text-gray-400 hover:text-gray-500">
@@ -120,6 +89,11 @@ export default function AdminSwappersList() {
                 </td>
               </tr>
             ))}
+            {filteredUsers.length === 0 && (
+              <tr>
+                <td colSpan="5" className="text-center py-4 text-gray-500">No users found.</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

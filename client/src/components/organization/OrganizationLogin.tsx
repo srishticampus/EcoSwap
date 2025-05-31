@@ -11,27 +11,34 @@ export default function OrganizationLogin() {
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setErrorMsg('');
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setErrorMsg('');
 
-    try {
-      const res = await axios.post('http://localhost:8000/organization/login', formData);
-console.log(res);
+  try {
+    const res = await axios.post('http://localhost:8000/organization/login', formData);
+    console.log(res);
 
-      if (res.data.success == true) {
-        // Store token or user data if needed
-        localStorage.setItem('orgid', res.data.data._id);     // Optional
+    if (res.data.success === true) {
+      const orgData = res.data.data;
 
-        // Navigate to dashboard or some page
-        navigate('/organization/addproduct');
-      } else {
-        setErrorMsg(res.data.message || 'Login failed');
+      if (!orgData.isactive) {
+        alert('You are not activated, please contact admin.');
+        return;
       }
-    } catch (error) {
-      setErrorMsg(error.response?.data?.message || 'Something went wrong');
+
+      // Store token or user data if needed
+      localStorage.setItem('orgid', orgData._id);
+
+      // Navigate to dashboard or some page
+      navigate('/organization/dashboard');
+    } else {
+      setErrorMsg(res.data.message || 'Login failed');
     }
-  };
+  } catch (error) {
+    setErrorMsg(error.response?.data?.message || 'Something went wrong');
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

@@ -36,7 +36,7 @@ const saveorg = async (req, res) => {
             profilepic: req.file,
             mobile,
             password,
-            confirmPass, district, city
+            confirmPass, district, city,isactive:false
         });
 
         await org.save();
@@ -91,9 +91,26 @@ const viewOneOrganization = async (req, res) => {
 
 // Update organization details by ID
 const updateOrganizationDetails = async (req, res) => {
+    console.log(req.body);
+    
     try {
-        const updatedData = req.body;
+        const {
+            organizationname,
+            email,
+            district,
+            city,
+            mobile,
+        } = req.body;
 
+        const updatedData = {
+            organizationname,
+            email,
+            district,
+            city,
+            mobile,
+        };
+
+        // Only add profilepic if a new file was uploaded
         if (req.file) {
             updatedData.profilepic = req.file;
         }
@@ -116,6 +133,7 @@ const updateOrganizationDetails = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 // Forgot password
 const forgotPassword = async (req, res) => {
@@ -143,6 +161,49 @@ const forgotPassword = async (req, res) => {
     }
 };
 
+const activateOrganization = async (req, res) => {
+    try {
+        const orgId = req.params.id;
+        const updatedOrg = await Organization.findByIdAndUpdate(
+            orgId,
+            { isactive: true },
+            { new: true }
+        );
+
+        if (!updatedOrg) {
+            return res.status(404).json({ message: 'Organization not found' });
+        }
+
+        res.status(200).json({
+            message: 'Organization activated successfully',
+            data: updatedOrg,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const deactivateOrganization = async (req, res) => {
+    try {
+        const orgId = req.params.id;
+        const updatedOrg = await Organization.findByIdAndUpdate(
+            orgId,
+            { isactive: false },
+            { new: true }
+        );
+
+        if (!updatedOrg) {
+            return res.status(404).json({ message: 'Organization not found' });
+        }
+
+        res.status(200).json({
+            message: 'Organization deactivated successfully',
+            data: updatedOrg,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 
 module.exports = {
@@ -152,5 +213,6 @@ module.exports = {
     viewAllOrganizations,
     viewOneOrganization,
     updateOrganizationDetails,
-    forgotPassword,
+    forgotPassword,activateOrganization,
+    deactivateOrganization
 };

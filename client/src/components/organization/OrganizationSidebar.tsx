@@ -16,10 +16,13 @@ export default function OrganizationSidebar() {
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/organization/dashboard' },
-    { icon: Package, label: 'Items', path: '/organization/items' },
-    { icon: Calendar, label: 'Events', path: '/organization/events' },
-    { icon: Users, label: 'Community', path: '/organization/community' },
-    { icon: MessageSquare, label: 'Messages', path: '/organization/messages' },
+    { icon: Package, label: 'Items', path: '/organization/addProduct' },
+    { icon: Package, label: 'View Items', path: '/organization/view/products' },
+    { icon: Package, label: 'View Orders', path: '/organization/view/orders' },
+
+    { icon: Calendar, label: 'Events', path: '/organization/addevent' },
+    { icon: Users, label: 'Organizations', path: '/organization/viewallorgnization' },
+    // { icon: MessageSquare, label: 'Messages', path: '/organization/messages' },
     { icon: Users, label: 'Profile', path: '/organization/profile' },
     // { icon: Settings, label: 'Settings', path: '/organization/settings' },
   ];
@@ -45,8 +48,8 @@ export default function OrganizationSidebar() {
               key={item.path}
               to={item.path}
               className={`flex items-center space-x-3 px-4 py-2 rounded-lg transition-colors ${isActive
-                  ? 'bg-green-700 text-white'
-                  : 'text-green-100 hover:bg-green-700'
+                ? 'bg-green-700 text-white'
+                : 'text-green-100 hover:bg-green-700'
                 }`}
             >
               <Icon className="h-5 w-5" />

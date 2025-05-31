@@ -28,7 +28,10 @@ var OrganizationSchema=mongoose.Schema({
     password: {
         type:String,
         required:true
-    },
+    },isactive:{
+        type:Boolean,
+        required:true
+    }
 });
 
 const Organization=mongoose.model('organizations',OrganizationSchema);

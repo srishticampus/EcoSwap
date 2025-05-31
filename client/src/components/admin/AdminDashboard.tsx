@@ -26,11 +26,21 @@ ChartJS.register(
 export default function AdminDashboard() {
   const [userCount, setUserCount] = useState(0);
   const [orgCount, setOrgCount] = useState(0);
+  const [ProductCount, setProductCount] = useState(0);
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const res = await axios.get('http://localhost:8000/viewallusers');
         setUserCount(res.data.length);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get('http://localhost:8000/product/all');
+        setProductCount(res.data.data.length);
       } catch (error) {
         console.error('Error fetching users:', error);
       }
@@ -46,12 +56,14 @@ export default function AdminDashboard() {
 
     fetchUsers();
     fetchOrg();
+    fetchProduct()
   }, []);
 
   const stats = [
     { label: 'Total Users', value: userCount, icon: Users, },
-    { label: 'Active Items', value: '0', icon: Package, },
+    { label: 'Active Items', value: ProductCount, icon: Package, },
     { label: 'Organizations', value: orgCount, icon: Building2, },
+    
     // { label: 'Monthly Swaps', value: '892', icon: TrendingUp,},
   ];
 
