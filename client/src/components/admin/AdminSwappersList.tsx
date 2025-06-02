@@ -58,28 +58,28 @@ export default function AdminSwappersList({ url }) {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredUsers.map((user) => (
-              <tr key={user._id}>
+              <tr key={user?._id}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <img
-                    src={user.profilepic?.filename ? `${url}/upload/${user.profilepic.filename}` : 'https://via.placeholder.com/50'}
-                    alt={`${user.fullname}'s profile`}
+                    src={user?.profilepic?.filename ? `${url}/upload/${user?.profilepic?.filename}` : 'https://via.placeholder.com/50'}
+                    alt={`${user?.fullname}'s profile`}
                     className="w-10 h-10 rounded-full object-cover"
                   />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div>
-                      <div className="text-sm font-medium text-gray-900">{user.fullname}</div>
-                      <div className="text-sm text-gray-500">{user.email}</div>
+                      <div className="text-sm font-medium text-gray-900">{user?.fullname}</div>
+                      <div className="text-sm text-gray-500">{user?.email}</div>
                     </div>
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {user.city || 'N/A'}, {user.district || 'N/A'}
+                  {user?.city || 'N/A'}, {user?.district || 'N/A'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.isactive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-                    {user.isactive ? 'Active' : 'Inactive'}
+                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user?.isactive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    {user?.isactive ? 'Active' : 'Inactive'}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -89,7 +89,7 @@ export default function AdminSwappersList({ url }) {
                 </td>
               </tr>
             ))}
-            {filteredUsers.length === 0 && (
+            {filteredUsers?.length === 0 && (
               <tr>
                 <td colSpan="5" className="text-center py-4 text-gray-500">No users found.</td>
               </tr>

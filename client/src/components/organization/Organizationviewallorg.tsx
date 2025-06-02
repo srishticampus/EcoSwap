@@ -38,12 +38,12 @@ function Organizationviewallorg({ url }) {
             <tbody>
               {organizations.map((org) => (
                 <tr key={org._id} className="border-b hover:bg-gray-50">
-                                      <td className="px-4 py-2 w-25"><img style={{width:"25px"}} src={`${url}/upload/${org.profilepic.filename}`}></img></td>
+                                      <td className="px-4 py-2 w-25"><img style={{width:"25px"}} src={`${url}/upload/${org?.profilepic?.filename}`}></img></td>
 
-                  <td className="px-4 py-2">{org.organizationname}</td>
-                  <td className="px-4 py-2">{org.email}</td>
-                  <td className="px-4 py-2">{org.mobile}</td>
-                  <td className="px-4 py-2">{org.city}</td>
+                  <td className="px-4 py-2">{org?.organizationname}</td>
+                  <td className="px-4 py-2">{org?.email}</td>
+                  <td className="px-4 py-2">{org?.mobile}</td>
+                  <td className="px-4 py-2">{org?.city}</td>
                 </tr>
               ))}
               {organizations.length === 0 && (

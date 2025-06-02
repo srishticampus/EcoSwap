@@ -47,34 +47,34 @@ function Wishlist({url}) {
             key={idx}
             className="relative bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300"
           >
-            <button  onClick={() => handleRemove(item._id)} className="absolute top-2 right-2 text-red-600 hover:text-red-800">
+            <button  onClick={() => handleRemove(item?._id)} className="absolute top-2 right-2 text-red-600 hover:text-red-800">
               ❌
             </button>
 
             <img
               src={`${url}/upload/${item?.image?.filename}`} // adjust image path
-              alt={item.title}
+              alt={item?.title}
               className="w-full h-40 object-cover"
             />
 
             <div className="p-4">
-              <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
-              <p className="text-sm text-gray-600 mb-3">{item.description}</p>
+              <h3 className="text-lg font-semibold text-gray-800">{item?.title}</h3>
+              <p className="text-sm text-gray-600 mb-3">{item?.description}</p>
 
               <div className="text-sm text-gray-700 space-y-1 mb-3">
-                <p>Price: ${item.price}</p>
-                <p>Product Code: {item.productcode}</p>
+                <p>Price: ${item?.price}</p>
+                <p>Product Code: {item?.productcode}</p>
               </div>
 
               <div className="flex items-center gap-3 mt-3">
                 <p className="text-sm text-gray-700">Quantity:</p>
                 <div className="flex items-center border rounded overflow-hidden">
-                  {item.productquantity}
+                  {item?.productquantity}
                 </div>
               </div>
               <div className="flex justify-end mt-2">
                 <div className="bg-green-500 text-white text-xs font-semibold rounded flex items-center justify-center w-12 h-5">
-                  {item.rating} ★
+                  {item?.rating} ★
                 </div>
               </div>
             </div>

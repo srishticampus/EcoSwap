@@ -14,12 +14,12 @@ const uploadimg = multer({ storage: storage }).single("profilepic");
 
 // Register New User
 const saveuser = async (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
+    // console.log(req.body);
+    // console.log(req.file);
     
     
     try {
-        console.log(req.body);
+        // console.log(req.body);
         let profilepic = req.file;
 
         // Check if email or mobile already exists
@@ -64,7 +64,7 @@ isactive:true
 // Login
 const loginvalidateuser = async (req, res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
         const { email, password } = req.body;
 
         const result = await User.findOne({ email: email });
@@ -110,7 +110,7 @@ const viewAllUsers = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     
   try {
     const id = req.params.id;

@@ -100,7 +100,7 @@ function Organizationviewproducts({ url }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 name="title"
-                value={editdetails.title}
+                value={editdetails?.title}
                 onChange={handleInputChange}
                 placeholder="Title"
                 className="border p-2 rounded"
@@ -108,7 +108,7 @@ function Organizationviewproducts({ url }) {
               />
               <input
                 name="price"
-                value={editdetails.price}
+                value={editdetails?.price}
                 onChange={handleInputChange}
                 placeholder="Price"
                 className="border p-2 rounded"
@@ -116,7 +116,7 @@ function Organizationviewproducts({ url }) {
               />
               <input
                 name="productcode"
-                value={editdetails.productcode}
+                value={editdetails?.productcode}
                 onChange={handleInputChange}
                 placeholder="Product Code"
                 className="border p-2 rounded"
@@ -124,7 +124,7 @@ function Organizationviewproducts({ url }) {
               />
               <input
                 name="productquantity"
-                value={editdetails.productquantity}
+                value={editdetails?.productquantity}
                 onChange={handleInputChange}
                 placeholder="Quantity"
                 className="border p-2 rounded"
@@ -132,7 +132,7 @@ function Organizationviewproducts({ url }) {
               />
               <textarea
                 name="description"
-                value={editdetails.description}
+                value={editdetails?.description}
                 onChange={handleInputChange}
                 placeholder="Description"
                 className="border p-2 rounded col-span-2"
@@ -152,33 +152,33 @@ function Organizationviewproducts({ url }) {
           </form>
         )}
 
-        {products.length === 0 ? (
+        {products?.length === 0 ? (
           <p className="text-gray-600 text-center">No products added yet.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {products.map((product) => (
               <div
-                key={product._id}
+                key={product?._id}
                 className="bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105"
               >
                 <img
                   src={`${url}/upload/${product?.image?.filename}`}
-                  alt={product.title}
+                  alt={product?.title}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-4 space-y-2">
                   <h2 className="text-lg font-semibold text-green-700">
-                    {product.title}
+                    {product?.title}
                   </h2>
-                  <p className="text-sm text-gray-600">{product.description}</p>
+                  <p className="text-sm text-gray-600">{product?.description}</p>
                   <div className="flex justify-between items-center text-sm text-gray-800">
-                    <span>₹{product.price}</span>
-                    <span>Rating: {product.rating || "4.5"} ★</span>
+                    <span>₹{product?.price}</span>
+                    <span>Rating: {product?.rating || "4.5"} ★</span>
                   </div>
                   <p className="text-sm text-gray-500">
-                    Code: {product.productcode || "N/A"}
+                    Code: {product?.productcode || "N/A"}
                   </p>
-                  {product.isAvailable === false ? (
+                  {product?.isAvailable === false ? (
                     <span className="text-red-500 font-bold">Sold Out</span>
                   ): <div className="flex gap-2 mt-3">
                     <button

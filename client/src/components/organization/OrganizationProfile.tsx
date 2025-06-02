@@ -53,7 +53,7 @@ export default function OrganizationProfile({url}) {
           <div className="px-6 py-4">
             <div className="flex flex-col md:flex-row items-center">
               <img
-                src={`${url}/upload/${user?.profilepic.filename}`}
+                src={`${url}/upload/${user?.profilepic?.filename}`}
                 alt="Profile"
                 className="w-32 h-32 rounded-full border-4 border-white -mt-16"
               />

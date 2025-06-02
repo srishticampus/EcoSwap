@@ -91,7 +91,7 @@ const viewOneOrganization = async (req, res) => {
 
 // Update organization details by ID
 const updateOrganizationDetails = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     
     try {
         const {
@@ -138,7 +138,7 @@ const updateOrganizationDetails = async (req, res) => {
 // Forgot password
 const forgotPassword = async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     try {
         const org = await Organization.findOne({ email });

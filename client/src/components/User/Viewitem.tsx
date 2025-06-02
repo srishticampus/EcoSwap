@@ -88,10 +88,10 @@ function Viewitem({ url }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {data.map((item) => (
           <div
-            key={item._id}
+            key={item?._id}
             className="relative rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 bg-green-50 mt-4"
           >
-            {item.isAvailable === false ? (
+            {item?.isAvailable === false ? (
               <span className="text-red-500 font-bold">Sold Out</span>
             ) : <div className="flex gap-2 mt-3">
               <button
@@ -121,12 +121,12 @@ function Viewitem({ url }) {
               <p className="text-sm text-gray-600 mb-3">{item?.description}</p>
               <div className="text-sm text-gray-700 space-y-1 mb-3">
                 <p>Price: {item?.price}/-</p>
-                <p>Product Code: {item.productcode}</p>
-                <p>Quantity: {item.productquantity}</p>
+                <p>Product Code: {item?.productcode}</p>
+                <p>Quantity: {item?.productquantity}</p>
               </div>
               <div className="flex justify-end mt-2">
                 <div className="bg-green-500 text-white text-xs font-semibold rounded flex items-center justify-center w-12 h-5">
-                  {item.ratings} ★
+                  {item?.ratings} ★
                 </div>
               </div>
             </div>
@@ -143,7 +143,7 @@ function Viewitem({ url }) {
               <input
                 type="text"
                 name="title"
-                value={editdetails.title || ""}
+                value={editdetails?.title || ""}
                 onChange={(e) => setEditdetails({ ...editdetails, title: e.target.value })}
                 className="w-full mb-3 border p-2 rounded"
                 placeholder="Product Name"
@@ -151,7 +151,7 @@ function Viewitem({ url }) {
               />
               <textarea
                 name="description"
-                value={editdetails.description || ""}
+                value={editdetails?.description || ""}
                 onChange={(e) => setEditdetails({ ...editdetails, description: e.target.value })}
                 className="w-full mb-3 border p-2 rounded"
                 placeholder="Product Description"
@@ -160,7 +160,7 @@ function Viewitem({ url }) {
               <input
                 type="text"
                 name="price"
-                value={editdetails.price || ""}
+                value={editdetails?.price || ""}
                 onChange={(e) => setEditdetails({ ...editdetails, price: e.target.value })}
                 className="w-full mb-3 border p-2 rounded"
                 placeholder="Price"
@@ -169,7 +169,7 @@ function Viewitem({ url }) {
               <input
                 type="text"
                 name="productcode"
-                value={editdetails.productcode || ""}
+                value={editdetails?.productcode || ""}
                 onChange={(e) => setEditdetails({ ...editdetails, productcode: e.target.value })}
                 className="w-full mb-3 border p-2 rounded"
                 placeholder="Product Code"
@@ -186,7 +186,7 @@ function Viewitem({ url }) {
               <input
                 type="text"
                 name="productquantity"
-                value={editdetails.productquantity || ""}
+                value={editdetails?.productquantity || ""}
                 onChange={(e) => setEditdetails({ ...editdetails, productquantity: e.target.value })}
                 className="w-full mb-6 border p-2 rounded"
                 placeholder="Quantity"

@@ -86,7 +86,7 @@ export default function ProductList({ url }) {
   const handlePaymentAndBuy = async () => {
     const { accountNumber, cvv, expiryDate } = paymentDetails;
 
-    if (accountNumber.length !== 16) {
+    if (accountNumber?.length !== 16) {
       alert("Account number must be exactly 16 digits.");
       return;
     }
@@ -127,7 +127,7 @@ export default function ProductList({ url }) {
   };
 
   const filteredProducts = products.filter(product =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+    product?.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -163,29 +163,29 @@ export default function ProductList({ url }) {
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map(product => (
-            <div key={product._id} className="bg-white rounded-lg shadow overflow-hidden relative">
+            <div key={product?._id} className="bg-white rounded-lg shadow overflow-hidden relative">
               <img
-                src={`${url}/upload/${product.image?.filename}`}
-                alt={product.title}
+                src={`${url}/upload/${product?.image?.filename}`}
+                alt={product?.title}
                 className="w-full h-48 object-cover"
               />
               <button
-                onClick={() => handleLikeProduct(product._id)}
+                onClick={() => handleLikeProduct(product?._id)}
                 className="absolute top-2 right-2 text-red-500 hover:text-red-700"
                 title="Add to Wishlist"
               >
-                <Heart fill={likedProducts.includes(product._id) ? 'red' : 'none'} />
+                <Heart fill={likedProducts.includes(product?._id) ? 'red' : 'none'} />
               </button>
               <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2">{product.title}</h3>
-                <p className="text-gray-600 text-sm mb-2">{product.description}</p>
-                <p className="text-sm text-gray-800 mb-2 font-medium">Price: ₹{product.price}</p>
+                <h3 className="text-lg font-semibold mb-2">{product?.title}</h3>
+                <p className="text-gray-600 text-sm mb-2">{product?.description}</p>
+                <p className="text-sm text-gray-800 mb-2 font-medium">Price: ₹{product?.price}</p>
                 <div className="flex items-center justify-between">
                   <div className="text-sm text-gray-500">
-                    <p>{product.addedBy?.organizationname || 'Organization'}</p>
+                    <p>{product?.addedBy?.organizationname || 'Organization'}</p>
                   </div>
                   <button
-                    onClick={() => openPaymentModal(product._id, product.price)}
+                    onClick={() => openPaymentModal(product?._id, product?.price)}
                     className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
                   >
                     Buy Now
@@ -194,7 +194,7 @@ export default function ProductList({ url }) {
               </div>
             </div>
           ))}
-          {filteredProducts.length === 0 && (
+          {filteredProducts?.length === 0 && (
             <p className="text-center text-gray-500 col-span-full">No products found.</p>
           )}
         </div>
@@ -210,10 +210,10 @@ export default function ProductList({ url }) {
                 type="text"
                 name="accountNumber"
                 placeholder="Account Number (16 digits)"
-                value={paymentDetails.accountNumber}
+                value={paymentDetails?.accountNumber}
                 onChange={handlePaymentChange}
                 className={`w-full px-4 py-2 border rounded-md ${
-                  paymentDetails.accountNumber.length !== 16 ? 'border-red-500' : 'border-gray-300'
+                  paymentDetails?.accountNumber?.length !== 16 ? 'border-red-500' : 'border-gray-300'
                 }`}
                 maxLength={16}
               />
@@ -221,27 +221,27 @@ export default function ProductList({ url }) {
                 type="text"
                 name="cvv"
                 placeholder="CVV (3 digits)"
-                value={paymentDetails.cvv}
+                value={paymentDetails?.cvv}
                 onChange={handlePaymentChange}
                 className={`w-full px-4 py-2 border rounded-md ${
-                  paymentDetails.cvv.length !== 3 ? 'border-red-500' : 'border-gray-300'
+                  paymentDetails?.cvv?.length !== 3 ? 'border-red-500' : 'border-gray-300'
                 }`}
                 maxLength={3}
               />
               <input
                 type="date"
                 name="expiryDate"
-                value={paymentDetails.expiryDate}
+                value={paymentDetails?.expiryDate}
                 onChange={handlePaymentChange}
                 className={`w-full px-4 py-2 border rounded-md ${
-                  new Date(paymentDetails.expiryDate) <= new Date() ? 'border-red-500' : 'border-gray-300'
+                  new Date(paymentDetails?.expiryDate) <= new Date() ? 'border-red-500' : 'border-gray-300'
                 }`}
               />
               <input
                 type="text"
                 name="payAmount"
                 placeholder="Amount"
-                value={paymentDetails.payAmount}
+                value={paymentDetails?.payAmount}
                 readOnly
                 className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100"
               />

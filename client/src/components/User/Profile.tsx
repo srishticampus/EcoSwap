@@ -40,7 +40,7 @@ export default function Profile({url}) {
           <div className="px-6 py-4">
             <div className="flex flex-col md:flex-row items-center">
               <img
-                src={`${url}/upload/${user?.profilepic.filename}`}
+                src={`${url}/upload/${user?.profilepic?.filename}`}
                 alt="Profile"
                 className="w-32 h-32 rounded-full border-4 border-white -mt-16"
               />
@@ -73,8 +73,8 @@ export default function Profile({url}) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {userStats.map((stat, index) => (
             <div key={index} className="bg-white p-4 rounded-lg shadow text-center">
-              <p className="text-gray-600">{stat.label}</p>
-              <p className="text-2xl font-bold text-green-600">{stat.value}</p>
+              <p className="text-gray-600">{stat?.label}</p>
+              <p className="text-2xl font-bold text-green-600">{stat?.value}</p>
             </div>
           ))}
         </div>
@@ -96,13 +96,13 @@ export default function Profile({url}) {
                 listedItems.map((item, index) => (
                   <div key={index} className="border rounded-lg overflow-hidden">
                     <img
-                      src={item.image}
-                      alt={item.title}
+                      src={item?.image}
+                      alt={item?.title}
                       className="w-full h-48 object-cover"
                     />
                     <div className="p-4">
-                      <h3 className="font-medium">{item.title}</h3>
-                      <p className="text-sm text-gray-600">{item.status}</p>
+                      <h3 className="font-medium">{item?.title}</h3>
+                      <p className="text-sm text-gray-600">{item?.status}</p>
                       <div className="mt-4 flex justify-end">
                         <button className="text-green-600 hover:text-green-700">
                           Edit
