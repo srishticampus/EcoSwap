@@ -4,8 +4,14 @@ import haircare from "../../asserts/haircare.png"
 import skincare from "../../asserts/skincare.png"
 import officedecor from "../../asserts/officedecor.png"
 import img from "../../asserts/userHome.jpg"
+import { BsChatDotsFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserHomePage() {
+  const navigate=useNavigate()
+  const handleChatBoot=()=>{
+navigate("/chatbot")
+  }
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="flex flex-col-reverse md:flex-row items-center mb-16 md:mt-10 lg:ms-10 ">
@@ -114,6 +120,21 @@ export default function UserHomePage() {
           <li>Help reduce waste and build community, one swap at a time.</li>
         </ul>
       </section>
+      import { BsChatDotsFill } from "react-icons/bs"; // Add at top
+
+// Inside the component's return JSX (at the end, outside all sections)
+<div className="fixed bottom-6 right-6 z-50">
+  <button
+    className="bg-green-700 hover:bg-green-800 text-white p-4 rounded-full shadow-lg transition-transform hover:scale-105"
+    aria-label="Chat with us"
+    onClick={() => {
+     handleChatBoot()
+    }}
+  >
+    <BsChatDotsFill size={24} />
+  </button>
+</div>
+
     </div>
   );
 }
