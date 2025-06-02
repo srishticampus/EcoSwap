@@ -44,19 +44,19 @@ function UserViewEvents({url}) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
           <div
-            key={event._id}
+            key={event?._id}
             className="bg-white shadow-lg rounded-lg p-5 hover:shadow-xl transition"
           >
-            <img src={`${url}/upload/${event.image.filename}`}></img>
-            <h3 className="text-xl font-semibold text-green-800 mb-2">{event.eventName}</h3>
+            <img src={`${url}/upload/${event?.image?.filename}`}></img>
+            <h3 className="text-xl font-semibold text-green-800 mb-2">{event?.eventName}</h3>
             <p className="text-gray-600 text-sm mb-2">
-              📍 {event.venue}
+              📍 {event?.venue}
             </p>
             <p className="text-gray-500 text-sm mb-4">
-              🗓️ {new Date(event.eventDate).toLocaleDateString()} | 🕒{' '}
-           {event.eventTime}
+              🗓️ {new Date(event?.eventDate).toLocaleDateString()} | 🕒{' '}
+           {event?.eventTime}
             </p>
-            <p className="text-gray-700 text-sm">{event.purpose}</p>
+            <p className="text-gray-700 text-sm">{event?.purpose}</p>
           </div>
         ))}
       </div>

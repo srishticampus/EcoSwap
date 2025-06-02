@@ -129,10 +129,10 @@ const SubmitComplaint = () => {
             ) : (
               <ul className="space-y-4 max-h-80 overflow-y-auto px-2">
                 {complaints.map((complaint) => (
-                  <li key={complaint._id} className="bg-gray-100 rounded-lg p-4 shadow-sm">
-                    <p className="text-gray-800"><strong>Message:</strong> {complaint.complaintMessage}</p>
+                  <li key={complaint?._id} className="bg-gray-100 rounded-lg p-4 shadow-sm">
+                    <p className="text-gray-800"><strong>Message:</strong> {complaint?.complaintMessage}</p>
                     <p className="text-gray-500 text-sm mt-1">
-                      Submitted on: {new Date(complaint.createdAt).toLocaleString()}
+                      Submitted on: {new Date(complaint?.createdAt).toLocaleString()}
                     </p>
                   </li>
                 ))}

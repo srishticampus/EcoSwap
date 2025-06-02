@@ -25,18 +25,18 @@ function Organizationvieworders({ url }) {
       <main className="flex-1 p-8">
         <h1 className="text-3xl font-bold text-green-800 mb-6">My Products</h1>
 
-        {orders.length > 0 ? (
+        {orders?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {orders.map((order) => {
               const product = order?.product;
               const buyer = order?.buyer;
               return (
                 <div
-                  key={order._id}
+                  key={order?._id}
                   className="bg-white rounded-2xl shadow-lg overflow-hidden border border-green-100"
                 >
                   <img
-                    src={`http://localhost:8000/upload/${product.image?.filename}`}
+                    src={`http://localhost:8000/upload/${product?.image?.filename}`}
                     alt={product?.title}
                     className="w-full h-48 object-cover"
                   />

@@ -74,9 +74,9 @@ export default function OrganizationProfileEdit({ url }) {
                   <img
                     src={
                       formData?.profilepic instanceof File
-                        ? URL.createObjectURL(formData.profilepic.filename)
-                        : formData.profilepic
-                          ? `${url}/upload/${formData.profilepic.filename}`
+                        ? URL.createObjectURL(formData?.profilepic?.filename)
+                        : formData?.profilepic
+                          ? `${url}/upload/${formData?.profilepic?.filename}`
                           : '/default-user.png'
                     }
                     alt="Profile"
@@ -93,7 +93,7 @@ export default function OrganizationProfileEdit({ url }) {
               <input
                 type="text"
                 name="organizationname"
-                value={formData.organizationname}
+                value={formData?.organizationname}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
               />
@@ -104,7 +104,7 @@ export default function OrganizationProfileEdit({ url }) {
               <input
                 type="email"
                 name="email"
-                value={formData.email}
+                value={formData?.email}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
               />
@@ -115,7 +115,7 @@ export default function OrganizationProfileEdit({ url }) {
               <input
                 type="number"
                 name="mobile"
-                value={formData.mobile}
+                value={formData?.mobile}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
               />
@@ -126,7 +126,7 @@ export default function OrganizationProfileEdit({ url }) {
               <input
                 type="text"
                 name="district"
-                value={formData.district}
+                value={formData?.district}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
               />
@@ -137,7 +137,7 @@ export default function OrganizationProfileEdit({ url }) {
               <input
                 type="text"
                 name="city"
-                value={formData.city}
+                value={formData?.city}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
               />

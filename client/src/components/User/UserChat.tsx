@@ -237,33 +237,33 @@ function UserChat({ url }) {
                     <ul className="bg-white rounded-lg shadow divide-y">
                         {productList.map(product => (
                             <li
-                                key={product._id}
+                                key={product?._id}
                                 onClick={() => setSelectedProduct(product)}
-                                className={`px-4 py-3 cursor-pointer hover:bg-green-100 ${selectedProduct?._id === product._id ? 'bg-green-200 font-semibold' : ''
+                                className={`px-4 py-3 cursor-pointer hover:bg-green-100 ${selectedProduct?._id === product?._id ? 'bg-green-200 font-semibold' : ''
                                     }`}
                             >
-                                {product.title || 'Unnamed Product'}
+                                {product?.title || 'Unnamed Product'}
                                 <span>
-                                    {product && product.addedBy && product.addedBy._id && product.addedBy._id === userId ? ' - my product' : ''}
+                                    {product && product?.addedBy && product?.addedBy?._id && product?.addedBy?._id === userId ? ' - my product' : ''}
                                 </span>
                             </li>
                         ))}
                     </ul>
 
                     {/* Owner-specific: show users who messaged */}
-                    {isOwner && conversations.length > 0 && (
+                    {isOwner && conversations?.length > 0 && (
                         <div className="mt-6">
                             <h3 className="text-gray-700 font-medium mb-2">Users Messaged</h3>
                             <ul className="bg-white rounded-lg shadow divide-y">
                                 {conversations.map(user => (
                                     <li
-                                        key={user._id}
-                                        onClick={() => fetchMessages(selectedProduct._id, user._id)}
+                                        key={user?._id}
+                                        onClick={() => fetchMessages(selectedProduct?._id, user?._id)}
                                         className={`px-4 py-2 cursor-pointer hover:bg-green-100 ${
-                                            selectedUser === user._id ? 'bg-green-300 font-semibold' : ''
+                                            selectedUser === user?._id ? 'bg-green-300 font-semibold' : ''
                                         }`}
                                     >
-                                        {user.username}
+                                        {user?.username}
                                     </li>
                                 ))}
                             </ul>
@@ -277,7 +277,7 @@ function UserChat({ url }) {
                     <div className="bg-green-600 text-white px-6 py-3 rounded-t-lg">
                         <h3 className="text-lg font-semibold">
                             💬 Chat {isOwner
-                                ? `with ${conversations.find(u => u._id === selectedUser)?.username || 'User'}`
+                                ? `with ${conversations.find(u => u?._id === selectedUser)?.username || 'User'}`
                                 : "with Product Owner"}
                         </h3>
                     </div>
@@ -287,7 +287,7 @@ function UserChat({ url }) {
                     <ul className="bg-white rounded-lg shadow divide-y">
                         {senders.map(sender => (
                             <li
-                                key={sender && sender._id ? sender._id : ''}
+                                key={sender && sender?._id ? sender?._id : ''}
                                 onClick={() => setSelectedProductSender(sender)}
                                 className={`px-4 py-2 cursor-pointer hover:bg-green-100 ${
                                             sender == selectedProductSender ? 'bg-green-300 font-semibold' : ''
@@ -305,13 +305,13 @@ function UserChat({ url }) {
                             messages.map((msg, i) => (
                                 <div
                                     key={i}
-                                    className={`flex ${msg.isMe ? 'justify-end' : 'justify-start'}`}
+                                    className={`flex ${msg?.isMe ? 'justify-end' : 'justify-start'}`}
                                 >
-                                    <div className={`max-w-xs px-4 py-2 rounded-lg text-sm ${msg.isMe ? 'bg-green-500 text-white' : 'bg-blue-100 text-gray-800'
+                                    <div className={`max-w-xs px-4 py-2 rounded-lg text-sm ${msg?.isMe ? 'bg-green-500 text-white' : 'bg-blue-100 text-gray-800'
                                         }`}>
-                                        <p>{msg.text}</p>
+                                        <p>{msg?.text}</p>
                                         <p className="text-xs text-gray-900 mt-1 text-right">
-                                            {new Date(msg.timestamp).toLocaleTimeString()}
+                                            {new Date(msg?.timestamp).toLocaleTimeString()}
                                         </p>
                                     </div>
                                 </div>

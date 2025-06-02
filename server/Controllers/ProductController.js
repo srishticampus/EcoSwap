@@ -227,13 +227,13 @@ exports.addRating = async (req, res) => {
 
 // 11. Get All Products by a users or Organization
 exports.getProductsByOwner = async (req, res) => {
-    console.log(req.params.ownerId);
+    // console.log(req.params.ownerId);
 
     try {
         const { ownerId } = req.params;
         const products = await Product.find({ addedBy: ownerId }).populate("addedBy");
         res.status(200).json({ success: true, data: products });
-        console.log(products, "products");
+        // console.log(products, "products");
 
     } catch (err) {
         res.status(500).json({ error: err.message });
@@ -243,7 +243,7 @@ exports.getProductsByOwner = async (req, res) => {
 // 12. Buy Product
 
 exports.buyProduct = async (req, res) => {
-    console.log(req.body, "req.body");
+    // console.log(req.body, "req.body");
 
     try {
         const { productId, buyerId } = req.body;

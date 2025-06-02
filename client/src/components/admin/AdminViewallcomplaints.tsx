@@ -35,29 +35,29 @@ function AdminViewallcomplaints() {
       {loading && <p className="text-center text-gray-600">Loading complaints...</p>}
       {error && <p className="text-center text-red-600">{error}</p>}
 
-      {!loading && complaints.length === 0 && (
+      {!loading && complaints?.length === 0 && (
         <p className="text-center text-gray-500">No complaints found.</p>
       )}
 
       <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
         {complaints.map((complaint) => (
           <div
-            key={complaint._id}
+            key={complaint?._id}
             className="bg-white shadow rounded-lg p-5 hover:shadow-lg transition"
           >
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
-              Complaint by: {complaint.userId?.fullname || 'Unknown User'}
+              Complaint by: {complaint?.userId?.fullname || 'Unknown User'}
             </h3>
 
             <p className="text-gray-700 mb-2">
-              <span className="font-semibold">Message:</span> {complaint.complaintMessage}
+              <span className="font-semibold">Message:</span> {complaint?.complaintMessage}
             </p>
 
     
 
             <p className="text-sm text-gray-500">
               <span className="font-semibold">Date:</span>{' '}
-              {new Date(complaint.createdAt).toLocaleString()}
+              {new Date(complaint?.createdAt).toLocaleString()}
             </p>
           </div>
         ))}

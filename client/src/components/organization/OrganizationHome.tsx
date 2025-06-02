@@ -60,16 +60,16 @@ export default function OrganizationHome() {
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat) => {
-            const Icon = stat.icon;
+            const Icon = stat?.icon;
             return (
-              <div key={stat.label} className="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
+              <div key={stat?.label} className="bg-white p-6 rounded-xl shadow hover:shadow-md transition">
                 <div className="flex items-center justify-between mb-4">
                   <div className="bg-green-100 p-3 rounded-full">
                     <Icon className="h-6 w-6 text-green-600" />
                   </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900">{stat.value}</h3>
-                <p className="text-gray-500">{stat.label}</p>
+                <h3 className="text-2xl font-bold text-gray-900">{stat?.value}</h3>
+                <p className="text-gray-500">{stat?.label}</p>
               </div>
             );
           })}
@@ -90,11 +90,11 @@ export default function OrganizationHome() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {events.map((event) => (
-                  <tr key={event._id}>
-                    <td className="px-4 py-2">{event.eventName}</td>
-                    <td className="px-4 py-2">{new Date(event.eventDate).toLocaleDateString()}</td>
-                    <td className="px-4 py-2">{event.venue}</td>
-                    <td className="px-4 py-2">{event.purpose}</td>
+                  <tr key={event?._id}>
+                    <td className="px-4 py-2">{event?.eventName}</td>
+                    <td className="px-4 py-2">{new Date(event?.eventDate).toLocaleDateString()}</td>
+                    <td className="px-4 py-2">{event?.venue}</td>
+                    <td className="px-4 py-2">{event?.purpose}</td>
                   </tr>
                 ))}
                 {events.length === 0 && (

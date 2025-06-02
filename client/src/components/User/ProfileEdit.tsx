@@ -98,7 +98,7 @@ const navigate=useNavigate()
                 <input
                   type="text"
                   name="fullname"
-                  value={formData.fullname}
+                  value={formData?.fullname}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
@@ -108,7 +108,7 @@ const navigate=useNavigate()
                 <label className="block text-sm font-medium text-gray-700">Gender</label>
                 <select
                   name="gender"
-                  value={formData.gender}
+                  value={formData?.gender}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 >
@@ -124,7 +124,7 @@ const navigate=useNavigate()
                 <input
                   type="number"
                   name="mobile"
-                  value={formData.mobile}
+                  value={formData?.mobile}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
@@ -135,7 +135,7 @@ const navigate=useNavigate()
                 <input
                   type="email"
                   name="email"
-                  value={formData.email}
+                  value={formData?.email}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
@@ -146,7 +146,7 @@ const navigate=useNavigate()
                 <input
                   type="text"
                   name="district"
-                  value={formData.district}
+                  value={formData?.district}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
@@ -157,7 +157,7 @@ const navigate=useNavigate()
                 <input
                   type="text"
                   name="city"
-                  value={formData.city}
+                  value={formData?.city}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
@@ -168,7 +168,7 @@ const navigate=useNavigate()
                 <input
                   type="number"
                   name="pincode"
-                  value={formData.pincode}
+                  value={formData?.pincode}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
@@ -179,7 +179,7 @@ const navigate=useNavigate()
                 <input
                   type="password"
                   name="password"
-                  value={formData.password}
+                  value={formData?.password}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />

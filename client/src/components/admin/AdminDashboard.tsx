@@ -99,17 +99,17 @@ export default function AdminDashboard() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat) => {
-          const Icon = stat.icon;
+          const Icon = stat?.icon;
           return (
-            <div key={stat.label} className="bg-white p-6 rounded-lg shadow">
+            <div key={stat?.label} className="bg-white p-6 rounded-lg shadow">
               <div className="flex items-center justify-between mb-4">
                 <div className="bg-green-100 p-3 rounded-full">
                   <Icon className="h-6 w-6 text-green-600" />
                 </div>
-                <span className="text-sm text-green-600 font-medium">{stat.change}</span>
+                <span className="text-sm text-green-600 font-medium">{stat?.change}</span>
               </div>
-              <h3 className="text-gray-900 text-2xl font-bold">{stat.value}</h3>
-              <p className="text-gray-600">{stat.label}</p>
+              <h3 className="text-gray-900 text-2xl font-bold">{stat?.value}</h3>
+              <p className="text-gray-600">{stat?.label}</p>
             </div>
           );
         })}

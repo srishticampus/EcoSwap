@@ -2,7 +2,7 @@ var Admin=require('../Models/Adminschema');
 
 
 const loginvalidateadmin=async(req,res)=>{
-    console.log(req.body);
+    // console.log(req.body);
     const {emailId,password}=req.body;
 
     const adminEmail = "admin123@gmail.com";
