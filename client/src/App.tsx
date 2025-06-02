@@ -49,6 +49,7 @@ import UserViewEvents from './components/User/UserViewEvents';
 import Adminviewallevents from './components/admin/Adminviewallevents';
 import AdminViewallproducts from './components/admin/AdminViewallproducts';
 import AdminViewallcomplaints from './components/admin/AdminViewallcomplaints';
+import ChatBot from './components/Chatbot/Chatbot';
 function App() {
   const url = 'http://localhost:8000';
 
@@ -104,6 +105,7 @@ function App() {
 
 
         <Route path="/userchat" element={[<UserChat url={url} />, <Footer />]} />
+        <Route path="/chatbot" element={[<ChatBot />, <Footer />]} />
         <Route path="/user/viewevents" element={[<UserViewEvents url={url} />, <Footer />]} />
         <Route path="/*" element={<Pnf />} />
       </Routes>

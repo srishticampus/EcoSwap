@@ -19,7 +19,7 @@ export default function Landing() {
             <h1 className="text-5xl md:text-6xl font-bold mb-6">Welcome to EcoSwap</h1>
             <p className="text-xl md:text-2xl mb-8">Trade, Reuse, and Make a Difference</p>
             <Link
-              to="/register"
+              to="/user/register"
               className="inline-flex items-center bg-green-600 text-white px-8 py-3 rounded-lg text-lg hover:bg-green-700 transition-colors"
             >
               Get Started
