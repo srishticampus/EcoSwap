@@ -146,7 +146,7 @@ export default function UserNavbar() {
               to="/userchat"
               className="flex items-center px-3 py-2 text-green-700 hover:bg-green-100 rounded-lg"
             >
-              <ShoppingCart className="mr-2 h-5 w-5 text-green-700" />
+             
               <span className="text-green-800">Chat</span>
             </Link>
           </li>

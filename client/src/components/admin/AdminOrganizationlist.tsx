@@ -80,7 +80,7 @@ export default function AdminOrganizationsList({ url }) {
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Organization Name</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Location</th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                            {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th> */}
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -110,11 +110,11 @@ export default function AdminOrganizationsList({ url }) {
                                             {org?.isactive ? 'Active' : 'Inactive'}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    {/* <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <button className="text-gray-400 hover:text-gray-500">
                                             <MoreVertical className="h-5 w-5" />
                                         </button>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             ))
                         ) : (
