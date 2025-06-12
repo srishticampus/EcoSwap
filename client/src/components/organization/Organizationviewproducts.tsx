@@ -53,7 +53,7 @@ function Organizationviewproducts({ url }) {
     formData.append("title", editdetails.title);
     formData.append("description", editdetails.description);
     formData.append("price", editdetails.price);
-    formData.append("productcode", editdetails.productcode);
+    formData.append("production_complexity", editdetails.production_complexity);
     formData.append("productquantity", editdetails.productquantity);
     if (editdetails.imageFile) {
       formData.append("image", editdetails.imageFile);
@@ -115,10 +115,10 @@ function Organizationviewproducts({ url }) {
                 required
               />
               <input
-                name="productcode"
-                value={editdetails?.productcode}
+                name="production_complexity"
+                value={editdetails?.production_complexity}
                 onChange={handleInputChange}
-                placeholder="Product Code"
+                placeholder="production_complexity"
                 className="border p-2 rounded"
                 required
               />
@@ -176,7 +176,7 @@ function Organizationviewproducts({ url }) {
                     <span>Rating: {product?.rating || "4.5"} ★</span>
                   </div>
                   <p className="text-sm text-gray-500">
-                    Code: {product?.productcode || "N/A"}
+                    Code: {product?.production_complexity || "N/A"}
                   </p>
                   {product?.isAvailable === false ? (
                     <span className="text-red-500 font-bold">Sold Out</span>

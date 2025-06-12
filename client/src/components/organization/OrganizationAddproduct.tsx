@@ -11,7 +11,7 @@ function OrganizationAddproduct() {
     price: '',
     image: null,
     productquantity: null,
-    productcode: '',
+    production_complexity: '',
     addedByType: 'organizations',
     addedBy: localStorage.getItem('orgid'),
   });
@@ -25,9 +25,9 @@ function OrganizationAddproduct() {
   };
 
   const validateForm = () => {
-    const { title, description, category, price, productquantity, productcode, image } = data;
+    const { title, description, category, price, productquantity, production_complexity, image } = data;
 
-    if (!title || !description || !category || !price || !productquantity || !productcode || !image) {
+    if (!title || !description || !category || !price || !productquantity || !production_complexity || !image) {
       alert('All fields are required.');
       return false;
     }
@@ -57,7 +57,7 @@ function OrganizationAddproduct() {
       formData.append('category', data.category);
       formData.append('price', data.price);
       formData.append('productquantity', data.productquantity);
-      formData.append('productcode', data.productcode);
+      formData.append('production_complexity', data.production_complexity);
       formData.append('addedByType', data.addedByType);
       formData.append('addedBy', data.addedBy);
       formData.append('image', data.image);
@@ -161,11 +161,11 @@ function OrganizationAddproduct() {
                 </div>
 
                 <div className="sm:col-span-4">
-                  <label className="block text-sm font-medium text-gray-900">Product Code</label>
+                  <label className="block text-sm font-medium text-gray-900">Product Complexity</label>
                   <input
                     onChange={handlechange}
-                    value={data.productcode}
-                    name="productcode"
+                    value={data.production_complexity}
+                    name="production_complexity"
                     type="text"
                     className="mt-2 block w-full rounded-md border border-gray-300 px-3 py-1.5 text-sm text-gray-900"
                   />

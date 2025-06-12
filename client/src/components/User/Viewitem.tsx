@@ -46,7 +46,7 @@ function Viewitem({ url }) {
     formData.append("title", editdetails.title);
     formData.append("description", editdetails.description);
     formData.append("price", editdetails.price);
-    formData.append("productcode", editdetails.productcode);
+    formData.append("production_complexity", editdetails.production_complexity);
     formData.append("productquantity", editdetails.productquantity);
     if (editdetails.imageFile) {
       formData.append("image", editdetails.imageFile);
@@ -121,7 +121,7 @@ function Viewitem({ url }) {
               <p className="text-sm text-gray-600 mb-3">{item?.description}</p>
               <div className="text-sm text-gray-700 space-y-1 mb-3">
                 <p>Price: {item?.price}/-</p>
-                <p>Product Code: {item?.productcode}</p>
+                <p>production complexity: {item?.production_complexity}</p>
                 <p>Quantity: {item?.productquantity}</p>
               </div>
               <div className="flex justify-end mt-2">
@@ -168,11 +168,11 @@ function Viewitem({ url }) {
               />
               <input
                 type="text"
-                name="productcode"
-                value={editdetails?.productcode || ""}
-                onChange={(e) => setEditdetails({ ...editdetails, productcode: e.target.value })}
+                name="production_complexity"
+                value={editdetails?.production_complexity || ""}
+                onChange={(e) => setEditdetails({ ...editdetails, production_complexity: e.target.value })}
                 className="w-full mb-3 border p-2 rounded"
-                placeholder="Product Code"
+                placeholder="production complexity "
                 required
               />
               <input

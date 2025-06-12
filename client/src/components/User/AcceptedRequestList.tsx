@@ -75,7 +75,7 @@ function AcceptedRequestList({ url }) {
               <div className="flex items-center flex-wrap gap-6 text-sm text-gray-700">
                 <span>Price: <strong>₹{item?.productId?.price}</strong></span>
                 <span>Qty: <strong>{item?.productId?.productquantity || "N/A"}</strong></span>
-                <span>Code: <strong>{item?.productId?.productcode || "N/A"}</strong></span>
+                <span>Code: <strong>{item?.productId?.production_complexity || "N/A"}</strong></span>
                 <div className="bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded ml-auto">
                   {item?.productId?.rating || "4.5"} ★
                 </div>
@@ -98,7 +98,7 @@ function AcceptedRequestList({ url }) {
               <h5> Accept Swap with your product                 <h3 className="text-lg font-semibold">{item?.offeredItemId?.title}</h3>
               </h5><span>Price: <strong>₹{item?.offeredItemId?.price}</strong> </span>
               <span>Qty: <strong>{item?.offeredItemId?.productquantity || "N/A"}</strong> </span>
-              <span>Code: <strong>{item?.offeredItemId?.productcode || "N/A"}</strong> </span>
+              <span>Code: <strong>{item?.offeredItemId?.production_complexity || "N/A"}</strong> </span>
 
             </div>
           </div>

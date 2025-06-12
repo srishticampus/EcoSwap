@@ -28,7 +28,7 @@ exports.addProduct = async (req, res) => {
             addedBy,
             addedByType,
             productquantity,
-            productcode
+            production_complexity
         } = req.body;
 
         const image = req.file;
@@ -45,7 +45,7 @@ exports.addProduct = async (req, res) => {
             category,
             price,
             productquantity,
-            productcode,
+            production_complexity,
             image,
             swapAvailable: addedByType === 'users',
             addedBy,
