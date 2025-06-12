@@ -45,7 +45,7 @@ function Organizationvieworders({ url }) {
                     <p className="text-gray-700 mt-2">{product?.description}</p>
                     <div className="mt-3 text-sm text-gray-600 space-y-1">
                       <p><span className="font-medium">Category:</span> {product?.category}</p>
-                      {/* <p><span className="font-medium">Code:</span> {product?.productcode}</p> */}
+                      {/* <p><span className="font-medium">Code:</span> {product?.production_complexity}</p> */}
                       <p><span className="font-medium">Quantity:</span> {product?.productquantity}</p>
                       <p><span className="font-medium">Price:</span> ₹{order?.price}</p>
                       <p><span className="font-medium">Payment:</span> {order?.paymentStatus}</p>

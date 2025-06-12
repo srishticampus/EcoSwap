@@ -60,7 +60,7 @@ function AdminViewallproducts({url}) {
               </div>
 
               <div className="text-sm text-gray-600 mb-1">
-                Code: {product?.productcode}
+                Code: {product?.production_complexity}
               </div>
 
               <div className="text-sm mb-1">

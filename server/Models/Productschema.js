@@ -29,7 +29,7 @@ const ProductSchema = mongoose.Schema({
         required: true
 
     },
-    productcode: {
+    production_complexity: {
         type: String,
         required: true
     },

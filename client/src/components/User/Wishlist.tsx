@@ -63,7 +63,7 @@ function Wishlist({url}) {
 
               <div className="text-sm text-gray-700 space-y-1 mb-3">
                 <p>Price: ${item?.price}</p>
-                <p>Product Code: {item?.productcode}</p>
+                <p>Production Complexity : {item?.production_complexity}</p>
               </div>
 
               <div className="flex items-center gap-3 mt-3">
