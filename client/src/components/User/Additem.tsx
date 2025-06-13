@@ -43,9 +43,20 @@ function Additem() {
 
     const finalTitle = title === "other" ? customTitle : title;
     const finalCategory = category === "other" ? customCategory : category;
-    const finalComplexity = production_complexity === "other" ? customComplexity : production_complexity;
+    const finalComplexity =
+      production_complexity === "other"
+        ? customComplexity
+        : production_complexity;
 
-    if (!finalTitle || !description || !finalCategory || !price || !productquantity || !finalComplexity || !image) {
+    if (
+      !finalTitle ||
+      !description ||
+      !finalCategory ||
+      !price ||
+      !productquantity ||
+      !finalComplexity ||
+      !image
+    ) {
       alert("All fields are required.");
       return false;
     }
@@ -70,12 +81,23 @@ function Additem() {
 
     try {
       const formData = new FormData();
-      formData.append("title", data.title === "other" ? data.customTitle : data.title);
+      formData.append(
+        "title",
+        data.title === "other" ? data.customTitle : data.title
+      );
       formData.append("description", data.description);
-      formData.append("category", data.category === "other" ? data.customCategory : data.category);
+      formData.append(
+        "category",
+        data.category === "other" ? data.customCategory : data.category
+      );
       formData.append("price", data.price);
       formData.append("productquantity", data.productquantity);
-      formData.append("production_complexity", data.production_complexity === "other" ? data.customComplexity : data.production_complexity);
+      formData.append(
+        "production_complexity",
+        data.production_complexity === "other"
+          ? data.customComplexity
+          : data.production_complexity
+      );
       formData.append("addedByType", data.addedByType);
       formData.append("addedBy", data.addedBy);
       formData.append("image", data.image);
@@ -100,6 +122,51 @@ function Additem() {
       console.log("error in frontend", error);
     }
   };
+  const titleCategoryMap = {
+    candle: ["beeswax", "soy_wax", "cotton_beeswax"],
+    toothbrush: ["bamboo"],
+    bowl: ["coconut_shell", "clay"],
+    slipper: ["jute", "cotton", "organic_cotton"],
+    clothes: ["khadi", "organic_cotton", "cotton", "jute_cotton"],
+    organic_cosmetic: ["herbal", "herbal_oil"],
+    planter: ["clay", "recycled_materials"],
+    basket: ["cane", "jute"],
+    notebook: ["recycled_paper"],
+    jewelry: ["wood_seeds", "bamboo"],
+    towel: ["cotton", "organic_cotton"],
+    bag: ["jute", "cotton"],
+    soap_shampoo: ["herbal", "herbal_oil"],
+    decor: ["recycled_materials", "clay", "wood_seeds"],
+    toys: ["wood_seeds", "bamboo"],
+    lights: ["recycled_materials"],
+    bottles: ["recycled_materials", "bamboo"],
+    menstrual_products: ["organic_cotton", "cotton"],
+    straws: ["bamboo", "recycled_materials"],
+    other: [], // allow full list when 'other' is selected
+  };
+
+  const availableCategories =
+    data.title && titleCategoryMap[data.title]?.length
+      ? titleCategoryMap[data.title]
+      : [
+          "beeswax",
+          "bamboo",
+          "coconut_shell",
+          "jute_cotton",
+          "khadi",
+          "cotton_beeswax",
+          "herbal_oil",
+          "clay",
+          "cane",
+          "recycled_paper",
+          "wood_seeds",
+          "soy_wax",
+          "organic_cotton",
+          "cotton",
+          "jute",
+          "herbal",
+          "recycled_materials",
+        ]; // Full list as fallback
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -108,8 +175,15 @@ function Additem() {
           <h2 className="text-lg font-semibold text-gray-900 mb-4">ADD ITEM</h2>
 
           {/* Title Dropdown */}
-          <label className="block text-sm font-medium text-gray-900">Product Name</label>
-          <select name="title" value={data.title} onChange={handlechange} className="w-full border p-2 mt-1 rounded">
+          <label className="block text-sm font-medium text-gray-900">
+            Product Name
+          </label>
+          <select
+            name="title"
+            value={data.title}
+            onChange={handlechange}
+            className="w-full border p-2 mt-1 rounded"
+          >
             <option value="">Select a product</option>
             <option value="candle">Candle</option>
             <option value="toothbrush">Toothbrush</option>
@@ -144,7 +218,9 @@ function Additem() {
           )}
 
           {/* Description */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">Description</label>
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Description
+          </label>
           <textarea
             name="description"
             value={data.description}
@@ -154,7 +230,9 @@ function Additem() {
           ></textarea>
 
           {/* Image */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">Image</label>
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Image
+          </label>
           <input
             type="file"
             onChange={(e) => setData({ ...data, image: e.target.files[0] })}
@@ -162,7 +240,9 @@ function Additem() {
           />
 
           {/* Price */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">Price</label>
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Price
+          </label>
           <input
             type="text"
             name="price"
@@ -172,7 +252,9 @@ function Additem() {
           />
 
           {/* Quantity */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">Quantity</label>
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Quantity
+          </label>
           <input
             type="number"
             name="productquantity"
@@ -182,26 +264,23 @@ function Additem() {
           />
 
           {/* Category Dropdown */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">Category</label>
-          <select name="category" value={data.category} onChange={handlechange} className="w-full border p-2 mt-1 rounded">
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Category
+          </label>
+          <select
+            name="category"
+            value={data.category}
+            onChange={handlechange}
+            className="w-full border p-2 mt-1 rounded"
+          >
             <option value="">-- Select Category --</option>
-            <option value="beeswax">Beeswax</option>
-            <option value="bamboo">Bamboo</option>
-            <option value="coconut_shell">Coconut Shell</option>
-            <option value="jute_cotton">Jute Cotton</option>
-            <option value="khadi">Khadi</option>
-            <option value="cotton_beeswax">Cotton Beeswax</option>
-            <option value="herbal_oil">Herbal Oil</option>
-            <option value="clay">Clay</option>
-            <option value="cane">Cane</option>
-            <option value="recycled_paper">Recycled Paper</option>
-            <option value="wood_seeds">Wood Seeds</option>
-            <option value="soy_wax">Soy Wax</option>
-            <option value="organic_cotton">Organic Cotton</option>
-            <option value="cotton">Cotton</option>
-            <option value="jute">Jute</option>
-            <option value="herbal">Herbal</option>
-            <option value="recycled_materials">Recycled Materials</option>
+            {availableCategories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat
+                  .replace(/_/g, " ")
+                  .replace(/\b\w/g, (l) => l.toUpperCase())}
+              </option>
+            ))}
             <option value="other">Other</option>
           </select>
           {data.category === "other" && (
@@ -216,7 +295,9 @@ function Additem() {
           )}
 
           {/* Complexity Dropdown */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">Production Complexity</label>
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Production Complexity
+          </label>
           <select
             name="production_complexity"
             value={data.production_complexity}
@@ -265,7 +346,9 @@ function Additem() {
                   />
                 </svg>
               </div>
-              <h3 className="mt-4 text-lg font-semibold text-gray-900">Product added</h3>
+              <h3 className="mt-4 text-lg font-semibold text-gray-900">
+                Product added
+              </h3>
               <button
                 onClick={() => setShowModal(false)}
                 className="mt-6 rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-500"
