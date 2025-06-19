@@ -5,7 +5,7 @@ import skincare from "../../asserts/skincare.png"
 import officedecor from "../../asserts/officedecor.png"
 import img from "../../asserts/userHome.jpg"
 import { BsChatDotsFill } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,Link } from 'react-router-dom';
 
 export default function UserHomePage() {
   const navigate=useNavigate()
@@ -25,7 +25,8 @@ navigate("/chatbot")
             that are kind to the planet and your lifestyle. Every purchase you make supports a
             greener future.
           </p>
-          <button className="mt-4 w-36 h-10 bg-green-800 text-white rounded-lg tracking-wider hover:-translate-y-1 transition">Explore</button>
+          <Link to={"/user/product"}>
+          <button className="mt-4 w-36 h-10 bg-green-800 text-white rounded-lg tracking-wider hover:-translate-y-1 transition">Explore</button></Link>
         </div>
 
         <div className="md:w-1/2 mt-6 md:mt-16 lg:ms-8 ">
@@ -45,7 +46,6 @@ navigate("/chatbot")
         <div className="bg-[#E1E4C2] p-4 rounded-lg text-center space-y-4 h-[33rem]">
           <h3 className="font-medium">NEW COLLECTION</h3>
           <h2 className="text-3xl font-semibold">Hair Care</h2>
-          <button className="w-36 h-10 bg-black text-white rounded-full hover:-translate-y-2 transition">Show More</button>
           <div className="mt-4">
             <img src={haircare} alt="Hair Care" className="w-full h-[22rem] rounded-md" />
           </div>
@@ -54,7 +54,6 @@ navigate("/chatbot")
         <div className="bg-[#DCEEEE] p-4 rounded-lg text-center space-y-4 h-[33rem]">
           <h3 className="font-medium">NEW COLLECTION</h3>
           <h2 className="text-3xl font-semibold">Skin Care</h2>
-          <button className="w-36 h-10 bg-black text-white rounded-full hover:-translate-y-2 transition">Show More</button>
           <div className="mt-4">
             <img src={skincare} alt="Skin Care" className="w-full h-[22rem] rounded-md" />
           </div>
@@ -63,7 +62,6 @@ navigate("/chatbot")
         <div className="bg-[#F3EFE1] p-4 rounded-lg text-center space-y-4 h-[33rem]">
           <h3 className="font-medium">NEW COLLECTION</h3>
           <h2 className="text-3xl font-semibold">Office Decor</h2>
-          <button className="w-36 h-10 bg-black text-white rounded-full hover:-translate-y-2 transition">Show More</button>
           <div className="mt-4">
             <img src={officedecor} alt="Office Decor" className="w-full h-[22rem] rounded-md" />
           </div>
