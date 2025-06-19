@@ -74,6 +74,35 @@ function Additem() {
     return true;
   };
 
+  const handlepredict = async () => {
+    const finalTitle = data.title === "other" ? data.customTitle : data.title;
+    const finalCategory =
+      data.category === "other" ? data.customCategory : data.category;
+    const finalComplexity =
+      data.production_complexity === "other"
+        ? data.customComplexity
+        : data.production_complexity;
+
+    try {
+      const response = await axios.post("http://localhost:8000/predict", {
+        title: finalTitle,
+        category: finalCategory,
+        production_complexity: finalComplexity,
+        market_demand: "medium", // hardcoded for now
+      });
+
+      console.log(response.data, "Prediction response");
+
+      // Update price in main state
+      setData((prevData) => ({
+        ...prevData,
+        price: response.data.data.price,
+      }));
+    } catch (error) {
+      console.error("Prediction error:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -122,27 +151,23 @@ function Additem() {
       console.log("error in frontend", error);
     }
   };
+
   const titleCategoryMap = {
-    candle: ["beeswax", "soy_wax", "cotton_beeswax"],
-    toothbrush: ["bamboo"],
-    bowl: ["coconut_shell", "clay"],
-    slipper: ["jute", "cotton", "organic_cotton"],
-    clothes: ["khadi", "organic_cotton", "cotton", "jute_cotton"],
-    organic_cosmetic: ["herbal", "herbal_oil"],
-    planter: ["clay", "recycled_materials"],
-    basket: ["cane", "jute"],
-    notebook: ["recycled_paper"],
-    jewelry: ["wood_seeds", "bamboo"],
-    towel: ["cotton", "organic_cotton"],
-    bag: ["jute", "cotton"],
-    soap_shampoo: ["herbal", "herbal_oil"],
-    decor: ["recycled_materials", "clay", "wood_seeds"],
-    toys: ["wood_seeds", "bamboo"],
-    lights: ["recycled_materials"],
-    bottles: ["recycled_materials", "bamboo"],
-    menstrual_products: ["organic_cotton", "cotton"],
-    straws: ["bamboo", "recycled_materials"],
-    other: [], // allow full list when 'other' is selected
+    cloth_shopping_bag: ["cotton", "jute"],
+    beeswax_food_wrap: ["cotton_beeswax"],
+    bamboo_toothbrush: ["bamboo"],
+    reusable_kitchen_towel: ["cotton"],
+    coconut_shell_bowl: ["coconut_shell"],
+    natural_soap_shampoo: ["herbal"],
+    handmade_candle: ["soy_wax", "beeswax"],
+    organic_cosmetic: ["herbal_oil"],
+    handwoven_clothes: ["khadi", "organic_cotton"],
+    jute_slipper: ["jute", "jute_cotton"],
+    handmade_jewelry: ["wood_seeds", "recycled_materials"],
+    handmade_basket: ["jute", "bamboo", "cane"],
+    terracotta_planter: ["clay"],
+    recycled_paper_notebook: ["recycled_paper"],
+    other: [],
   };
 
   const availableCategories =
@@ -166,7 +191,7 @@ function Additem() {
           "jute",
           "herbal",
           "recycled_materials",
-        ]; // Full list as fallback
+        ];
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -185,25 +210,29 @@ function Additem() {
             className="w-full border p-2 mt-1 rounded"
           >
             <option value="">Select a product</option>
-            <option value="candle">Candle</option>
-            <option value="toothbrush">Toothbrush</option>
-            <option value="bowl">Bowl</option>
-            <option value="slipper">Slipper</option>
-            <option value="clothes">Clothes</option>
+            <option value="handmade_candle">Candle</option>
+            <option value="bamboo_toothbrush">bamboo_toothbrush</option>
+            <option value="coconut_shell_bowl">coconut_shell_bowl</option>
+            <option value="jute_slipper">Slipper</option>
+            <option value="beeswax_food_wrap">beeswax_food_wrap</option>
             <option value="organic_cosmetic">Organic Cosmetic</option>
-            <option value="planter">Planter</option>
-            <option value="basket">Basket</option>
-            <option value="notebook">Notebook</option>
-            <option value="jewelry">Jewelry</option>
-            <option value="towel">Towel</option>
-            <option value="bag">Bag</option>
-            <option value="soap_shampoo">Soap & Shampoo</option>
-            <option value="decor">Decor</option>
-            <option value="toys">Toys</option>
+            <option value="terracotta_planter">Planter</option>
+            <option value="handwoven_clothes">handwoven_clothes</option>
+            <option value="recycled_paper_notebook">
+              recycled_paper_notebook
+            </option>
+            <option value="handmade_jewelry">Jewelry</option>
+            <option value="reusable_kitchen_towel">
+              reusable_kitchen_towel
+            </option>
+            <option value="cloth_shopping_bag">cloth_shopping_bag</option>
+            <option value="natural_soap_shampoo">Soap & Shampoo</option>
+            <option value="handmade_basket">handmade_basket</option>
+            {/* <option value="toys">Toys</option>
             <option value="lights">Lights</option>
-            <option value="bottles">Bottles</option>
+            <option value="bottles">Bottles</option> */}
             <option value="menstrual_products">Menstrual Products</option>
-            <option value="straws">Straws</option>
+            {/* <option value="straws">Straws</option> */}
             <option value="other">Other</option>
           </select>
           {data.title === "other" && (
@@ -216,52 +245,6 @@ function Additem() {
               className="w-full border p-2 mt-2 rounded"
             />
           )}
-
-          {/* Description */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">
-            Description
-          </label>
-          <textarea
-            name="description"
-            value={data.description}
-            onChange={handlechange}
-            rows={3}
-            className="w-full border p-2 rounded"
-          ></textarea>
-
-          {/* Image */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">
-            Image
-          </label>
-          <input
-            type="file"
-            onChange={(e) => setData({ ...data, image: e.target.files[0] })}
-            className="w-full"
-          />
-
-          {/* Price */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">
-            Price
-          </label>
-          <input
-            type="text"
-            name="price"
-            value={data.price}
-            onChange={handlechange}
-            className="w-full border p-2 rounded"
-          />
-
-          {/* Quantity */}
-          <label className="block mt-4 text-sm font-medium text-gray-900">
-            Quantity
-          </label>
-          <input
-            type="number"
-            name="productquantity"
-            value={data.productquantity}
-            onChange={handlechange}
-            className="w-full border p-2 rounded"
-          />
 
           {/* Category Dropdown */}
           <label className="block mt-4 text-sm font-medium text-gray-900">
@@ -319,6 +302,60 @@ function Additem() {
               className="w-full border p-2 mt-2 rounded"
             />
           )}
+
+          <button
+            className="mt-2 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-200"
+            type="button"
+            onClick={handlepredict}
+          >
+            Predict Price
+          </button>
+
+          {/* Price */}
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Price
+          </label>
+          <input
+            type="text"
+            name="price"
+            value={data.price}
+            onChange={handlechange}
+            className="w-full border p-2 rounded"
+          />
+
+          {/* Description */}
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Description
+          </label>
+          <textarea
+            name="description"
+            value={data.description}
+            onChange={handlechange}
+            rows={3}
+            className="w-full border p-2 rounded"
+          ></textarea>
+
+          {/* Image */}
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Image
+          </label>
+          <input
+            type="file"
+            onChange={(e) => setData({ ...data, image: e.target.files[0] })}
+            className="w-full"
+          />
+
+          {/* Quantity */}
+          <label className="block mt-4 text-sm font-medium text-gray-900">
+            Quantity
+          </label>
+          <input
+            type="number"
+            name="productquantity"
+            value={data.productquantity}
+            onChange={handlechange}
+            className="w-full border p-2 rounded"
+          />
 
           <button
             type="submit"
