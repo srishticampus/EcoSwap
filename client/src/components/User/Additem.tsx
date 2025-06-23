@@ -74,34 +74,35 @@ function Additem() {
     return true;
   };
 
-  const handlepredict = async () => {
-    const finalTitle = data.title === "other" ? data.customTitle : data.title;
-    const finalCategory =
-      data.category === "other" ? data.customCategory : data.category;
-    const finalComplexity =
-      data.production_complexity === "other"
-        ? data.customComplexity
-        : data.production_complexity;
+const handlepredict = async () => {
+  const finalTitle = data.title === "other" ? data.customTitle : data.title;
+  const finalCategory =
+    data.category === "other" ? data.customCategory : data.category;
+  const finalComplexity =
+    data.production_complexity === "other"
+      ? data.customComplexity
+      : data.production_complexity;
 
-    try {
-      const response = await axios.post("http://localhost:8000/predict", {
-        title: finalTitle,
-        category: finalCategory,
-        production_complexity: finalComplexity,
-        market_demand: "medium", // hardcoded for now
-      });
+  try {
+    const response = await axios.post("http://localhost:8000/predict", {
+      title: finalTitle,
+      category: finalCategory,
+      production_complexity: finalComplexity,
+      market_demand: "medium", // hardcoded for now
+    });
 
-      console.log(response.data, "Prediction response");
+    console.log(response.data, "Prediction response");
 
-      // Update price in main state
-      setData((prevData) => ({
-        ...prevData,
-        price: response.data.data.price,
-      }));
-    } catch (error) {
-      console.error("Prediction error:", error);
-    }
-  };
+    // Apply floor operation here
+    setData((prevData) => ({
+      ...prevData,
+      price: Math.floor(response.data.data.price),
+    }));
+  } catch (error) {
+    console.error("Prediction error:", error);
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

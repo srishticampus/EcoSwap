@@ -70,10 +70,10 @@ export default function OrganizationProfile({url}) {
       <Settings className="h-5 w-5 mr-2" />
       Edit Profile
     </Link>
-    <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700">
+    {/* <button className="inline-flex items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700">
       <MessageCircle className="h-5 w-5 mr-2" />
       Message
-    </button>
+    </button> */}
   </div>
 </div>
 </div>
