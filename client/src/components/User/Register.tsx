@@ -1,7 +1,7 @@
-import React, { useState, FormEvent, ChangeEvent } from 'react';
-import image from "../../asserts/image 1.png"
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, FormEvent, ChangeEvent } from "react";
+import image from "../../asserts/image 1.png";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 type FormState = {
   fullname: string;
@@ -22,58 +22,54 @@ type ErrorState = {
 
 export default function RegisterPage() {
   const [form, setForm] = useState<FormState>({
-    fullname: '',
-    gender: '',
+    fullname: "",
+    gender: "",
     profilepic: null,
-    mobile: '',
-    email: '',
-    password: '',
-    confirmpassword: '',
-    district: '',
-    city: '',
-    pincode: '',
+    mobile: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+    district: "",
+    city: "",
+    pincode: "",
   });
 
   const [errors, setErrors] = useState<ErrorState>({});
 
   const validateField = (name: keyof FormState, value: any): string => {
     switch (name) {
-      case 'fullname':
-      case 'gender':
-      case 'district':
-      case 'city':
-        return value.trim() === '' ? 'This field is required' : '';
+      case "fullname":
+      case "gender":
+      case "district":
+      case "city":
+        return value.trim() === "" ? "This field is required" : "";
 
-      case 'profilepic':
-        return value instanceof File ? '' : 'Profile picture is required';
+      case "profilepic":
+        return value instanceof File ? "" : "Profile picture is required";
 
-      case 'mobile':
+      case "mobile":
         return /^\d{10}$/.test(value)
-          ? ''
-          : 'Mobile number must be exactly 10 digits';
+          ? ""
+          : "Mobile number must be exactly 10 digits";
 
-      case 'email':
+      case "email":
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
-          ? ''
-          : 'Invalid email address';
+          ? ""
+          : "Invalid email address";
 
-      case 'pincode':
-        return /^\d{6}$/.test(value)
-          ? ''
-          : 'Pincode must be exactly 6 digits';
+      case "pincode":
+        return /^\d{6}$/.test(value) ? "" : "Pincode must be exactly 6 digits";
 
-      case 'password':
+      case "password":
         return value.length >= 6
-          ? ''
-          : 'Password must be at least 6 characters';
+          ? ""
+          : "Password must be at least 6 characters";
 
-      case 'confirmpassword':
-        return value === form.password
-          ? ''
-          : 'Passwords do not match';
+      case "confirmpassword":
+        return value === form.password ? "" : "Passwords do not match";
 
       default:
-        return '';
+        return "";
     }
   };
 
@@ -81,7 +77,7 @@ export default function RegisterPage() {
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, type, value, files } = e.target as HTMLInputElement;
-    const val = type === 'file' ? files?.[0] ?? null : value;
+    const val = type === "file" ? files?.[0] ?? null : value;
     setForm((f) => ({ ...f, [name]: val }));
 
     // Validate immediately
@@ -100,7 +96,7 @@ export default function RegisterPage() {
     }
     return true;
   };
-const navigate=useNavigate()
+  const navigate = useNavigate();
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -118,17 +114,20 @@ const navigate=useNavigate()
     });
 
     try {
-      const response = await axios.post('http://localhost:8000/user/register', formData)
-      console.log(response,"res");
-      
+      const response = await axios.post(
+        "http://localhost:8000/user/register",
+        formData
+      );
+      console.log(response, "res");
+
       if (response.data.success == true) {
-        alert("Register Successfully")
-        navigate("/user/login")
+        alert("Register Successfully");
+        navigate("/user/login");
       } else {
-        alert(response.data.message)
+        alert(response.data.message);
       }
     } catch (error) {
-      console.error('Submission error:', error);
+      console.error("Submission error:", error);
     }
   };
   return (
@@ -140,15 +139,25 @@ const navigate=useNavigate()
             <span>EcoSwap</span>
           </div>
           <ul className="flex items-center space-x-6 text-[#2f7a2f] text-sm font-normal">
-            <li><a className="hover:underline" href="#">Products</a></li>
             <li>
-              <a className="flex items-center space-x-1 hover:underline" href="#">
+              <a className="hover:underline" href="#">
+                Products
+              </a>
+            </li>
+            <li>
+              <a
+                className="flex items-center space-x-1 hover:underline"
+                href="#"
+              >
                 <span>Login</span>
                 <i className="fas fa-arrow-right ml-1" />
               </a>
             </li>
             <li>
-              <a className="flex items-center space-x-1 hover:underline" href="#">
+              <a
+                className="flex items-center space-x-1 hover:underline"
+                href="#"
+              >
                 <i className="fas fa-user-plus" />
                 <span>Register</span>
               </a>
@@ -271,14 +280,30 @@ const navigate=useNavigate()
               <label htmlFor="district" className="block text-sm mb-1">
                 District
               </label>
-              <input
+              <select
                 id="district"
                 name="district"
-                type="text"
                 value={form.district}
                 onChange={handleChange}
                 className="w-full border rounded px-3 py-2"
-              />
+              >
+                <option value="">Select District</option>
+                <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+                <option value="Kollam">Kollam</option>
+                <option value="Pathanamthitta">Pathanamthitta</option>
+                <option value="Alappuzha">Alappuzha</option>
+                <option value="Kottayam">Kottayam</option>
+                <option value="Idukki">Idukki</option>
+                <option value="Ernakulam">Ernakulam</option>
+                <option value="Thrissur">Thrissur</option>
+                <option value="Palakkad">Palakkad</option>
+                <option value="Malappuram">Malappuram</option>
+                <option value="Kozhikode">Kozhikode</option>
+                <option value="Wayanad">Wayanad</option>
+                <option value="Kannur">Kannur</option>
+                <option value="Kasaragod">Kasaragod</option>
+              </select>
+
               {errors.district && (
                 <p className="text-red-600 text-sm mt-1">{errors.district}</p>
               )}
@@ -364,10 +389,11 @@ const navigate=useNavigate()
           <button
             type="submit"
             disabled={!isFormValid()}
-            className={`w-full py-3 rounded-md text-white font-semibold transition-colors ${isFormValid()
-                ? 'bg-[#2f7a2f] hover:bg-green-800'
-                : 'bg-gray-400 cursor-not-allowed'
-              }`}
+            className={`w-full py-3 rounded-md text-white font-semibold transition-colors ${
+              isFormValid()
+                ? "bg-[#2f7a2f] hover:bg-green-800"
+                : "bg-gray-400 cursor-not-allowed"
+            }`}
           >
             Register
           </button>
