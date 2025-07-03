@@ -125,9 +125,9 @@ function Viewitem({ url }) {
                 <p>Quantity: {item?.productquantity}</p>
               </div>
               <div className="flex justify-end mt-2">
-                <div className="bg-green-500 text-white text-xs font-semibold rounded flex items-center justify-center w-12 h-5">
+                {/* <div className="bg-green-500 text-white text-xs font-semibold rounded flex items-center justify-center w-12 h-5">
                   {item?.ratings} ★
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
