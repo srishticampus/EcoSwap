@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
-function AdminViewallproducts({url}) {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+function AdminViewallproducts({ url }) {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/product/all')
+        const res = await axios.get("http://localhost:8000/product/all");
         if (res.data.success) {
-          setProducts(res.data.data)
+          setProducts(res.data.data);
         } else {
-          setError('Failed to fetch products')
+          setError("Failed to fetch products");
         }
       } catch (err) {
-        console.error(err)
-        setError('Something went wrong while fetching products')
+        console.error(err);
+        setError("Something went wrong while fetching products");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -51,12 +51,20 @@ function AdminViewallproducts({url}) {
               className="w-full h-48 object-cover"
             />
             <div className="p-4">
-              <h3 className="text-lg font-semibold text-gray-800 mb-1">{product?.title}</h3>
-              <p className="text-sm text-gray-500 mb-2">{product?.description}</p>
+              <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                {product?.title}
+              </h3>
+              <p className="text-sm text-gray-500 mb-2">
+                {product?.description}
+              </p>
 
               <div className="flex justify-between items-center text-sm mb-1">
-                <span className="text-green-700 font-medium">₹ {product?.price}</span>
-                <span className="text-gray-500">Qty: {product?.productquantity}</span>
+                <span className="text-green-700 font-medium">
+                  ₹ {product?.price}
+                </span>
+                <span className="text-gray-500">
+                  Qty: {product?.productquantity}
+                </span>
               </div>
 
               <div className="text-sm text-gray-600 mb-1">
@@ -64,32 +72,64 @@ function AdminViewallproducts({url}) {
               </div>
 
               <div className="text-sm mb-1">
-                Category: <span className="font-medium">{product?.category}</span>
+                Category:{" "}
+                <span className="font-medium">{product?.category}</span>
               </div>
 
               <div className="text-sm">
-                Status:{' '}
-                <span className={product?.isAvailable ? 'text-green-600' : 'text-red-600'}>
-                  {product?.isAvailable ? 'Available' : 'Not Available'}
+                Status:{" "}
+                <span
+                  className={
+                    product?.isAvailable ? "text-green-600" : "text-red-600"
+                  }
+                >
+                  {product?.isAvailable ? "Available" : "Not Available"}
                 </span>
               </div>
 
               <div className="text-sm mt-1">
-                Swap Available:{' '}
-                <span className={product?.swapAvailable ? 'text-green-700' : 'text-red-500'}>
-                  {product?.swapAvailable ? 'Yes' : 'No'}
+                Swap Available:{" "}
+                <span
+                  className={
+                    product?.swapAvailable ? "text-green-700" : "text-red-500"
+                  }
+                >
+                  {product?.swapAvailable ? "Yes" : "No"}
                 </span>
+              </div>
+              {/* Rating Section */}
+              <div className="text-sm mt-1">
+                Rating:{" "}
+                {product?.ratings?.length > 0 ? (
+                  <>
+                    <span className="text-yellow-600 font-medium">
+                      {(
+                        product.ratings.reduce((sum, r) => sum + r.rating, 0) /
+                        product.ratings.length
+                      ).toFixed(1)}{" "}
+                      / 5
+                    </span>{" "}
+                    <span className="text-gray-500">
+                      ({product.ratings.length} reviews)
+                    </span>
+                  </>
+                ) : (
+                  <span className="text-gray-400">No ratings</span>
+                )}
               </div>
 
               <div className="text-xs text-gray-500 mt-2">
-                Added by: {product?.addedBy?.fullname || product?.addedBy?.organizationname} ({product?.addedByType})
+                Added by:{" "}
+                {product?.addedBy?.fullname ||
+                  product?.addedBy?.organizationname}{" "}
+                ({product?.addedByType})
               </div>
             </div>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default AdminViewallproducts
+export default AdminViewallproducts;

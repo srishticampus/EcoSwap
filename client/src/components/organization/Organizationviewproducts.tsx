@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import OrganizationSidebar from './OrganizationSidebar';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import OrganizationSidebar from "./OrganizationSidebar";
 
 function Organizationviewproducts({ url }) {
   const [products, setProducts] = useState([]);
@@ -96,7 +96,9 @@ function Organizationviewproducts({ url }) {
             onSubmit={handleUpdate}
             className="bg-white p-6 rounded-lg shadow-md mb-6"
           >
-            <h2 className="text-xl font-bold mb-4 text-green-700">Edit Product</h2>
+            <h2 className="text-xl font-bold mb-4 text-green-700">
+              Edit Product
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 name="title"
@@ -170,31 +172,58 @@ function Organizationviewproducts({ url }) {
                   <h2 className="text-lg font-semibold text-green-700">
                     {product?.title}
                   </h2>
-                  <p className="text-sm text-gray-600">{product?.description}</p>
-                  <div className="flex justify-between items-center text-sm text-gray-800">
+                  <p className="text-sm text-gray-600">
+                    {product?.description}
+                  </p>
+                  {/* <div className="flex justify-between items-center text-sm text-gray-800">
                     <span>₹{product?.price}</span>
                     <span>Rating: {product?.rating || "4.5"} ★</span>
+                  </div> */}
+
+                  {/* Rating Section */}
+                  <div className="text-sm mt-1">
+                    Rating:{" "}
+                    {product?.ratings?.length > 0 ? (
+                      <>
+                        <span className="text-yellow-600 font-medium">
+                          {(
+                            product.ratings.reduce(
+                              (sum, r) => sum + r.rating,
+                              0
+                            ) / product.ratings.length
+                          ).toFixed(1)}{" "}
+                          / 5
+                        </span>{" "}
+                        <span className="text-gray-500">
+                          ({product.ratings.length} reviews)
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-gray-400">No ratings</span>
+                    )}
                   </div>
+
                   <p className="text-sm text-gray-500">
                     Code: {product?.production_complexity || "N/A"}
                   </p>
                   {product?.isAvailable === false ? (
                     <span className="text-red-500 font-bold">Sold Out</span>
-                  ): <div className="flex gap-2 mt-3">
-                    <button
-                      onClick={() => handleEdit(product)}
-                      className="text-sm px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white rounded"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => confirmDelete(product)}
-                      className="text-sm px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
-                    >
-                      Delete
-                    </button>
-                  </div>}
-                 
+                  ) : (
+                    <div className="flex gap-2 mt-3">
+                      <button
+                        onClick={() => handleEdit(product)}
+                        className="text-sm px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-white rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => confirmDelete(product)}
+                        className="text-sm px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -205,7 +234,9 @@ function Organizationviewproducts({ url }) {
         {showDeleteModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <p className="mb-4">Are you sure you want to delete this product?</p>
+              <p className="mb-4">
+                Are you sure you want to delete this product?
+              </p>
               <div className="flex justify-center gap-4">
                 <button
                   onClick={handleDeleteConfirmed}

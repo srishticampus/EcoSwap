@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Camera } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-export default function ProfileEdit({url}) {
-  const userid = localStorage.getItem("userid"); // Replace this with logic to get user ID
+const districtsOfKerala = [
+  "Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod", "Kollam",
+  "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta",
+  "Thiruvananthapuram", "Thrissur", "Wayanad"
+];
+
+export default function ProfileEdit({ url }) {
+  const userid = localStorage.getItem("userid");
   const [formData, setFormData] = useState({
     fullname: '',
     gender: '',
@@ -17,7 +22,9 @@ export default function ProfileEdit({url}) {
     password: ''
   });
 
-  // Fetch current user data to prefill form
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios.get(`http://localhost:8000/viewuser/${userid}`)
       .then((res) => setFormData(res.data))
@@ -32,9 +39,31 @@ export default function ProfileEdit({url}) {
       setFormData({ ...formData, [name]: value });
     }
   };
-const navigate=useNavigate()
+
+  const validateForm = () => {
+  const newErrors = {};
+  if (!formData.fullname) newErrors.fullname = "Full name is required";
+  if (!formData.gender) newErrors.gender = "Gender is required";
+  if (!formData.mobile || !/^\d{10}$/.test(formData.mobile)) {
+    newErrors.mobile = "Mobile must be exactly 10 digits";
+  }
+  if (!formData.email) newErrors.email = "Email is required";
+  if (!formData.district) newErrors.district = "District is required";
+  if (!formData.city) newErrors.city = "City is required";
+  if (!formData.pincode || !/^\d{6}$/.test(formData.pincode)) {
+    newErrors.pincode = "Pincode must be exactly 6 digits";
+  }
+  if (!formData.password) newErrors.password = "Password is required";
+
+  setErrors(newErrors);
+  return Object.keys(newErrors).length === 0;
+};
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     const updatedData = new FormData();
     Object.keys(formData).forEach(key => {
@@ -48,7 +77,7 @@ const navigate=useNavigate()
         },
       });
       console.log('User updated:', response.data);
-      navigate("/user/profile")
+      navigate("/user/profile");
     } catch (error) {
       console.error('Update failed:', error);
     }
@@ -61,54 +90,24 @@ const navigate=useNavigate()
           <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
           <form onSubmit={handleSubmit} className="space-y-6">
 
-            {/* Profile Picture Upload */}
-            {/* <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Profile Picture</label>
-              <div className="relative w-24 h-24 mb-3">
-              <img
-  src={
-    formData?.profilepic instanceof File
-      ? URL.createObjectURL(formData.profilepic)
-      : formData.profilepic
-        ? `${url}/upload/${formData.profilepic}`
-        : '/default-user.png'
-  }
-  alt="Profile"
-  className="h-24 w-24 rounded-full object-cover"
-/>
-
-
-                <label className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-lg cursor-pointer border border-gray-200">
-                  <Camera className="h-5 w-5 text-gray-600" />
-                  <input
-                    type="file"
-                    name="profilepic"
-                    accept="image/*"
-                    onChange={handleChange}
-                    className="hidden"
-                  />
-                </label>
-              </div>
-            </div> */}
-
-            {/* Two inputs per row */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">Full Name</label>
                 <input
                   type="text"
                   name="fullname"
-                  value={formData?.fullname}
+                  value={formData.fullname}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
+                {errors.fullname && <p className="text-red-500 text-sm">{errors.fullname}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">Gender</label>
                 <select
                   name="gender"
-                  value={formData?.gender}
+                  value={formData.gender}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 >
@@ -117,6 +116,7 @@ const navigate=useNavigate()
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </select>
+                {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
               </div>
 
               <div>
@@ -124,10 +124,11 @@ const navigate=useNavigate()
                 <input
                   type="number"
                   name="mobile"
-                  value={formData?.mobile}
+                  value={formData.mobile}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
+                {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile}</p>}
               </div>
 
               <div>
@@ -135,21 +136,27 @@ const navigate=useNavigate()
                 <input
                   type="email"
                   name="email"
-                  value={formData?.email}
+                  value={formData.email}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
+                {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700">District</label>
-                <input
-                  type="text"
+                <select
                   name="district"
-                  value={formData?.district}
+                  value={formData.district}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
-                />
+                >
+                  <option value="">Select District</option>
+                  {districtsOfKerala.map((district) => (
+                    <option key={district} value={district}>{district}</option>
+                  ))}
+                </select>
+                {errors.district && <p className="text-red-500 text-sm">{errors.district}</p>}
               </div>
 
               <div>
@@ -157,10 +164,11 @@ const navigate=useNavigate()
                 <input
                   type="text"
                   name="city"
-                  value={formData?.city}
+                  value={formData.city}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
+                {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
               </div>
 
               <div>
@@ -168,10 +176,11 @@ const navigate=useNavigate()
                 <input
                   type="number"
                   name="pincode"
-                  value={formData?.pincode}
+                  value={formData.pincode}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
+                {errors.pincode && <p className="text-red-500 text-sm">{errors.pincode}</p>}
               </div>
 
               <div>
@@ -179,10 +188,11 @@ const navigate=useNavigate()
                 <input
                   type="password"
                   name="password"
-                  value={formData?.password}
+                  value={formData.password}
                   onChange={handleChange}
                   className="mt-1 block w-full border border-gray-300 rounded-md py-2 px-3"
                 />
+                {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
               </div>
             </div>
 
